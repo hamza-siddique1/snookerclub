@@ -97,3 +97,5 @@ Route::get('/reset', function () {
             \Artisan::call('optimize:clear');
             dd('Database cleared');
         });
+
+        //Test1
