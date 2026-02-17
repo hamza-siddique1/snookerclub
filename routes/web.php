@@ -2,10 +2,10 @@
 
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerHistory;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,8 +78,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('users', UsersController::class);
         Route::post('password/{user}', [UsersController::class, 'password_update'])->name('user.password_update');
 
-        Route::get('/reset', function () {
-            dd('Nothing to do');
+
+
+    });
+
+});
+
+// New
+Route::get('/reset', function () {
+            //dd('Nothing to do');
 
             if (env('APP_ENV') != 'local') {
                 dd('Nothing to do');
@@ -90,9 +97,3 @@ Route::group(['middleware' => ['auth']], function () {
             \Artisan::call('optimize:clear');
             dd('Database cleared');
         });
-
-    });
-
-});
-
-// New
