@@ -30,6 +30,8 @@ class CreatePlayersTable extends Migration
             $table->integer('earnings')->nullable();
             $table->text('image1')->nullable();
             $table->text('image2')->nullable();
+            $table->text('cue')->nullable();
+            $table->text('cue_link')->nullable();
             $table->timestamps();
         });
     }

@@ -160,6 +160,37 @@
 
                         </div>
 
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="cue">Cue</label>
+                                    <input
+                                        class="form-control form-control-lg"
+                                        type="text"
+                                        name="cue"
+                                        placeholder="Cue"
+                                    />
+                                </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="earnings">Cue Link</label>
+
+                                    <input
+                                        class="form-control form-control-lg"
+                                        type="url"
+                                        name="cue_link"
+                                        placeholder="Cue Link"
+                                    />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                         <div class="row mt-3">
                             <div class="col-6">
                                 <div class="form-group">

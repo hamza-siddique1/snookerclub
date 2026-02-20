@@ -57,5 +57,20 @@
             <td class="darkred">TITLES</td>
             <td class="darkerwhite"> {{ $player2->titles }} </td>
         </tr>
+        <tr>
+            <td class="darkerwhite">
+                <a href="{{ $player1->cue_link }}" target="_blank">
+                    {{ $player1->cue }}
+                </a>
+            </td>
+
+            <td class="darkred">Cue</td>
+
+            <td class="darkerwhite">
+                <a href="{{ $player2->cue_link }}" target="_blank">
+                    {{ $player2->cue }}
+                </a>
+            </td>
+        </tr>
     </table>
 </section>

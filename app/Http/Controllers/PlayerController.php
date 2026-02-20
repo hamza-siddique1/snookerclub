@@ -54,6 +54,8 @@ class PlayerController extends Controller
             'earnings' => $request->earnings,
             'image1' => $image_1_name,
             'image2' => $image_2_name,
+            'cue' => $request->cue,
+            'cue_link' => $request->cue_link,
         ]);
 
         Session::flash('success', 'Player successfully added.');

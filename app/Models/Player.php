@@ -22,6 +22,8 @@ class Player extends Model
         'earnings',
         'image1',
         'image2',
+        'cue',
+        'cue_link',
     ];
     protected $casts = [
         'dob' => 'date',
