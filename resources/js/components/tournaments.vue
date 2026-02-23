@@ -198,6 +198,9 @@ export default {
             })
                 .then(function (response) {
                     console.log(response.data);
+
+                    const notyf = new Notyf();
+                    notyf.success('Tournament created successfully!');
                 })
                 .catch(function (error) {
                     console.log(error);
