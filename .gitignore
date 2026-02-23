@@ -1,5 +1,4 @@
 /node_modules
-/public/*
 /storage/*
 *.key
 *.log
@@ -15,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+public/js/app.js

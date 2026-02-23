@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;800&display=swap');
+
+body {
+    background-color: #141414;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 83%;
+}
+
+#navbarDropdownMenuLink img{
+    width: 1vw;
+    vertical-align: auto;
+}
+#bgdark{
+    background-color: #000000;
+    opacity: 100%;
+    color: #ffffff;
+    padding-left: 0px!important;
+    padding-right: 25px;
+}
+#ddnav{
+    justify-content: right;
+    flex-grow: 1;
+}
+.navbar-nav{
+    justify-content: center;
+    flex-grow: 200;
+    padding: 10px;
+}
+#navbarNavDropdown li{
+    font-size: 17px;
+    font-weight: 600;
+    padding: 0 15px 0px 15px;
+}
+.navbar-brand{
+    font-size: 17px;
+    font-weight: 600;
+}
+#navitem{
+    color: #ffffff;
+}
+#navitem:hover{
+    opacity: 80%;
+}
+
+@media only screen and (max-width: 991px){
+    .navbar-dark .navbar-nav .nav-link{
+        font-size:12px;
+    }
+    #navbarNavDropdown li {
+        padding: 0 0px 0px 0px;
+    }
+}
+@media only screen and (max-width: 991px){
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 1rem;
+    }
+}
+
+#footer a{
+    color: #ffffff;
+    font-weight: 600;
+}
+#footerlogo{
+    font-size: 20px;
+    padding: 1vw;
+}
+.footernav{
+    font-size: 16px;
+}
+.copyright{
+    text-align: center;
+    font-size: 13PX;
+    font-weight: 600;
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+#footer{
+    background-color: #1e1e1e;
+}
+#bgdark{
+    background-color: #1e1e1e;
+}
+
+@media only screen and (max-width: 768px){
+    .navbar-brand img {
+        width: 45%!important;
+        padding-left:0;
+    }
+}
+.navbar {
+    padding-top:0.3125rem!important;
+    padding-bottom:0.3125rem!important;
+}
+#footer-text{
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 10px 10px 10px;
+    background-color: #1E1E1E;
+}
+.navbar-brand img{
+    width: 75%;
+}
+@media only screen and (max-width: 768px){
+    .navbar-brand img {
+        width: 55%;
+    }
+}
