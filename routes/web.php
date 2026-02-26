@@ -37,6 +37,9 @@ Route::get('contact', [TournamentController::class, 'contact'])->name('tournamen
 Route::get('about', [TournamentController::class, 'about'])->name('tournament.about');
 Route::post('email', [TournamentController::class, 'send_email'])->name('contact.send_email');
 
+//Player
+Route::get('players/{player:slug}', [PlayerController::class, 'show'])->name('player.front.show');
+
 //Ranking
 Route::get('stats', [TournamentController::class, 'stats'])->name('tournament.stats');
 
