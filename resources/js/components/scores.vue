@@ -27,7 +27,9 @@
                             <col class="col-2">
                             <col class="col-3">
                             <col class="col-4">
-                            <!-- <col class="col-5"> -->
+                            <col class="col-5">
+                            <col class="col-6">
+                            <col class="col-7">
                         </colgroup>
                         <thead>
                         <tr>
@@ -63,6 +65,8 @@
                                 </div>
                             </td>
                             <td class="text-left" :class="getClassName(item.winner === item.player_2_id)"> {{ item.player_2 }}</td>
+                            <td class="text-left"> {{ item.year }}</td>
+                            <td class="text-left"> {{ item.table_number }}</td>
 
                         </tr>
 

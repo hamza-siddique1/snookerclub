@@ -39,7 +39,8 @@ class TournamentController extends Controller
             'status' => Tournament::KEY_ACTION_CREATED,
             'draw_url' => $request->draw_url,
             'score_player_1' => 0,
-            'score_player_2' => 0
+            'score_player_2' => 0,
+            'table' => $request->table,
         ]);
 
         Session::flash('success', 'Tournament successfully added.');
@@ -62,7 +63,8 @@ class TournamentController extends Controller
             'score_player_2' => $request->score_player_2,
             'break_run_player_1' => $request->break_and_run_player_1,
             'break_run_player_2' => $request->break_and_run_player_2,
-            'status' => $request->status
+            'status' => $request->status,
+            'table' => $request->table
         ]);
 
         Session::flash('success', 'Successfully updated.');
@@ -117,6 +119,7 @@ class TournamentController extends Controller
                 return [
                     'id' => $item->id,
                     'match_number' => $matchNumber++,
+                    'table_number' => $item->table,
                     'player_1' => get_player_name($item->player_1),
                     'player_1_id' => $item->player_1,
                     'player_2' => get_player_name($item->player_2),
@@ -417,7 +420,8 @@ class TournamentController extends Controller
 
                 'score_player_1' => 0,
                 'score_player_2' => 0,
-                'level' => 1
+                'level' => 1,
+                'table' => $i+1
             ]);
 
         }
