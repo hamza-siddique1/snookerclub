@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tournament;
 use App\Models\Player;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class TournamentController extends Controller
@@ -112,10 +112,11 @@ class TournamentController extends Controller
         $matches = $matches->groupBy('tournament')->all();
 
         foreach ($matches as $key => $match) {
-
-            $match = $match->map(function ($item, $key) {
+            $matchNumber = 1;
+            $match = $match->map(function ($item, $key) use (&$matchNumber) {
                 return [
                     'id' => $item->id,
+                    'match_number' => $matchNumber++,
                     'player_1' => get_player_name($item->player_1),
                     'player_1_id' => $item->player_1,
                     'player_2' => get_player_name($item->player_2),

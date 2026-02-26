@@ -36,12 +36,16 @@
                             <th class="text-uppercase"><span class="tbl-hd-label">Player 1</span></th>
                             <th class="text-uppercase"></th>
                             <th class="text-uppercase"><span class="tbl-hd-label">Player 2</span></th>
+                            <th class="text-uppercase"></th>
+                            <th class="text-uppercase"><span class="tbl-hd-label">Time</span></th>
+                            <th class="text-uppercase"></th>
+                            <th class="text-uppercase"><span class="tbl-hd-label">Table</span></th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr class="odd" v-for="(item, index) in match2" @click="open_detail_page(item.id)">
-                            <td rowspan="1"> {{ item.year }}</td>
+                            <td rowspan="1"> {{ item.match_number }}</td>
                             <td class="text-right" :class="getClassName(item.winner === item.player_1_id)"> {{ item.player_1 }}</td>
                             <td>
                                 <div class="row odds-parent">
