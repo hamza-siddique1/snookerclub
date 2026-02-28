@@ -61,8 +61,6 @@ Route::group(['middleware' => ['auth']], function () {
 //    Route::get('/home', [PlayerHistory::class, 'index'])->name('homepage.index');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::impersonate();
-
     Route::resource('matches', TournamentController::class);
     Route::get('tournaments/create', [TournamentController::class, 'create_tournament'])->name('tournaments.create_tournament');
     Route::get('api/players', [TournamentController::class, 'get_players'])->name('tournaments.get_players');

@@ -73,6 +73,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ request()->is('results') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('tournament.results') }}">
+                    <i class="align-middle" data-feather="arrow-up"></i>
+                    <span class="align-middle">Snooker Scoring</span>
+                </a>
+            </li>
+
 
 
             @if( $role == 'admin')

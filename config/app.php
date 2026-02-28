@@ -167,7 +167,6 @@ return [
          * Package Service Providers...
          */
         App\Providers\FortifyServiceProvider::class,
-        Lab404\Impersonate\ImpersonateServiceProvider::class,
 
 
         /*
