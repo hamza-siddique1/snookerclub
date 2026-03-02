@@ -1,5 +1,5 @@
 /* ====================================================
-   TOURNAMENT BRACKET STYLESHEET
+   TOURNAMENT BRACKET - ENHANCED WITH PROPER ALIGNMENT
    Snooker & Pool Tournament System
    ================================================== */
 
@@ -37,6 +37,7 @@
   --bracket-width: 280px;
   --bracket-height: 120px;
   --bracket-gap: 60px;
+  --round-gap: 120px;
 }
 
 /* Dark Mode (Default) */
@@ -54,7 +55,7 @@ body.theme--dark {
   padding: 40px 20px;
   min-height: 100vh;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .draw__wrapper {
@@ -65,20 +66,20 @@ body.theme--dark {
 
 .draw {
   display: flex;
-  gap: 80px;
+  gap: var(--round-gap);
   padding: 40px 20px;
   align-items: flex-start;
   animation: slideInRight 0.8s ease-out;
 }
 
 /* ====================================================
-   ROUND STYLING
+   ROUND STYLING - PROPER ALIGNMENT
    ================================================== */
 
 .draw__round {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 0;
   min-width: fit-content;
   position: relative;
   animation: slideInLeft 0.6s ease-out;
@@ -97,7 +98,7 @@ body.theme--dark {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   position: relative;
   z-index: 10;
 }
@@ -138,13 +139,13 @@ body.theme--dark {
 }
 
 /* ====================================================
-   BRACKETS & MATCHES
+   BRACKETS & MATCHES - PROPER ALIGNMENT
    ================================================== */
 
 .draw__brackets {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 0;
   position: relative;
 }
 
@@ -153,14 +154,92 @@ body.theme--dark {
   display: flex;
   align-items: center;
   margin: 0;
+  height: 130px;
+  justify-content: flex-start;
 }
 
-.draw__bracket--odd {
+/* First match - no extra spacing */
+.draw__bracket:first-child {
   margin-top: 0;
 }
 
-.draw__bracket--even {
-  margin-top: 80px;
+/* Subsequent matches - space them out with proper gaps */
+.draw__bracket:not(:first-child) {
+  margin-top: 20px;
+}
+
+/* ====================================================
+   SPECIAL SPACING FOR DIFFERENT ROUNDS
+   ================================================== */
+
+/* Quarter Finals: 4 matches with normal spacing */
+.draw__round--first .draw__bracket:not(:first-child) {
+  margin-top: 20px;
+}
+
+/* Semi-Finals: 2 matches need much larger spacing */
+/* SF Match 1: Between QF Match 1-2 */
+.draw__round:nth-of-type(2) .draw__bracket:first-child {
+  margin-top: 0;
+}
+
+/* SF Match 2: Should be 280px down (to align with QF Match 3-4) */
+.draw__round:nth-of-type(2) .draw__bracket:nth-child(2) {
+  margin-top: 280px;
+}
+
+/* Finals: 1 match centered */
+.draw__round--last .draw__bracket:first-child {
+  margin-top: 75px;
+}
+
+/* ====================================================
+   CONNECTOR LINES - FROM QUARTERS TO SEMIS
+   ================================================== */
+
+/* Main horizontal connector from bracket */
+.draw__bracket::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border-color), transparent);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Vertical connector lines - connect pairs to semi-finals */
+.draw__brackets::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 2px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--border-color) 0px,
+    var(--border-color) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  margin-left: 60px;
+  z-index: 0;
+}
+
+/* Connection points for semi-final matches */
+.draw__bracket:nth-child(odd)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 35px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--border-color));
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
 /* ====================================================
@@ -179,6 +258,7 @@ body.theme--dark {
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   /* Match animation */
   animation: scaleIn 0.5s ease-out backwards;
@@ -353,26 +433,6 @@ body.theme--dark {
 }
 
 /* ====================================================
-   CONNECTOR LINES (Visual Connection Between Rounds)
-   ================================================== */
-
-.draw__bracket::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -60px;
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--border-color), transparent);
-  transform: translateY(-50%);
-  z-index: -1;
-}
-
-.draw__round--last .draw__bracket::after {
-  display: none;
-}
-
-/* ====================================================
    ANIMATIONS
    ================================================== */
 
@@ -477,7 +537,11 @@ body.theme--dark {
 
 @media (max-width: 1024px) {
   .draw {
-    gap: 50px;
+    gap: 80px;
+  }
+
+  :root {
+    --round-gap: 80px;
   }
 
   .bracket {
@@ -493,12 +557,16 @@ body.theme--dark {
 
 @media (max-width: 768px) {
   .draw {
-    gap: 40px;
+    gap: 60px;
     flex-wrap: wrap;
   }
 
+  :root {
+    --round-gap: 60px;
+  }
+
   .draw__round {
-    gap: 30px;
+    gap: 0;
   }
 
   .bracket {
@@ -519,8 +587,7 @@ body.theme--dark {
     padding: 12px 12px;
   }
 
-  .draw__bracket::after {
-    right: -45px;
+  .draw__bracket::before {
     width: 45px;
   }
 }
@@ -531,12 +598,16 @@ body.theme--dark {
   }
 
   .draw {
-    gap: 30px;
+    gap: 40px;
     padding: 20px 10px;
   }
 
+  :root {
+    --round-gap: 40px;
+  }
+
   .draw__round {
-    gap: 25px;
+    gap: 0;
   }
 
   .bracket {
@@ -566,12 +637,12 @@ body.theme--dark {
     padding: 10px 10px;
   }
 
-  .draw__bracket--even {
-    margin-top: 60px;
+  .draw__bracket {
+    height: 110px;
   }
 
-  .draw__brackets {
-    gap: 30px;
+  .draw__bracket:not(:first-child) {
+    margin-top: 15px;
   }
 }
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tournament;
 use App\Models\Player;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class TournamentController extends Controller
@@ -39,7 +39,8 @@ class TournamentController extends Controller
             'status' => Tournament::KEY_ACTION_CREATED,
             'draw_url' => $request->draw_url,
             'score_player_1' => 0,
-            'score_player_2' => 0
+            'score_player_2' => 0,
+            'table' => $request->table,
         ]);
 
         Session::flash('success', 'Tournament successfully added.');
@@ -62,7 +63,8 @@ class TournamentController extends Controller
             'score_player_2' => $request->score_player_2,
             'break_run_player_1' => $request->break_and_run_player_1,
             'break_run_player_2' => $request->break_and_run_player_2,
-            'status' => $request->status
+            'status' => $request->status,
+            'table' => $request->table
         ]);
 
         Session::flash('success', 'Successfully updated.');
@@ -112,13 +114,17 @@ class TournamentController extends Controller
         $matches = $matches->groupBy('tournament')->all();
 
         foreach ($matches as $key => $match) {
-
-            $match = $match->map(function ($item, $key) {
+            $matchNumber = 1;
+            $match = $match->map(function ($item, $key) use (&$matchNumber) {
                 return [
                     'id' => $item->id,
+                    'match_number' => $matchNumber++,
+                    'table_number' => $item->table,
                     'player_1' => get_player_name($item->player_1),
+                    'player_1_slug' => get_player_slug($item->player_1),
                     'player_1_id' => $item->player_1,
                     'player_2' => get_player_name($item->player_2),
+                    'player_2_slug' => get_player_slug($item->player_2),
                     'player_2_id' => $item->player_2,
                     'round' => $item->round,
                     'year' => $item->year->format('H:i'),
@@ -416,7 +422,8 @@ class TournamentController extends Controller
 
                 'score_player_1' => 0,
                 'score_player_2' => 0,
-                'level' => 1
+                'level' => 1,
+                'table' => $i+1
             ]);
 
         }

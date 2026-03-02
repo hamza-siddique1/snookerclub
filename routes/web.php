@@ -37,6 +37,9 @@ Route::get('contact', [TournamentController::class, 'contact'])->name('tournamen
 Route::get('about', [TournamentController::class, 'about'])->name('tournament.about');
 Route::post('email', [TournamentController::class, 'send_email'])->name('contact.send_email');
 
+//Player
+Route::get('players/{player:slug}', [PlayerController::class, 'show'])->name('player.front.show');
+
 //Ranking
 Route::get('stats', [TournamentController::class, 'stats'])->name('tournament.stats');
 
@@ -57,8 +60,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 //    Route::get('/home', [PlayerHistory::class, 'index'])->name('homepage.index');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-    Route::impersonate();
 
     Route::resource('matches', TournamentController::class);
     Route::get('tournaments/create', [TournamentController::class, 'create_tournament'])->name('tournaments.create_tournament');

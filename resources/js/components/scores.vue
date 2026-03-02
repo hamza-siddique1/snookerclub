@@ -27,7 +27,9 @@
                             <col class="col-2">
                             <col class="col-3">
                             <col class="col-4">
-                            <!-- <col class="col-5"> -->
+                            <col class="col-5">
+                            <col class="col-6">
+                            <col class="col-7">
                         </colgroup>
                         <thead>
                         <tr>
@@ -36,13 +38,17 @@
                             <th class="text-uppercase"><span class="tbl-hd-label">Player 1</span></th>
                             <th class="text-uppercase"></th>
                             <th class="text-uppercase"><span class="tbl-hd-label">Player 2</span></th>
+                            <th class="text-uppercase"></th>
+                            <th class="text-uppercase"><span class="tbl-hd-label">Time</span></th>
+                            <th class="text-uppercase"></th>
+                            <th class="text-uppercase"><span class="tbl-hd-label">Table</span></th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr class="odd" v-for="(item, index) in match2" @click="open_detail_page(item.id)">
-                            <td rowspan="1"> {{ item.year }}</td>
-                            <td class="text-right" :class="getClassName(item.winner === item.player_1_id)"> {{ item.player_1 }}</td>
+                            <td rowspan="1"> {{ item.match_number }}</td>
+                            <td class="text-right" :class="getClassName(item.winner === item.player_1_id)" @click="open_player_detail_page(item.player_1_slug)"> {{ item.player_1 }}</td>
                             <td>
                                 <div class="row odds-parent">
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-right">
@@ -58,7 +64,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-left" :class="getClassName(item.winner === item.player_2_id)"> {{ item.player_2 }}</td>
+                            <td class="text-left" :class="getClassName(item.winner === item.player_2_id)" @click="open_player_detail_page(item.player_2_slug)"> {{ item.player_2 }}</td>
+                            <td class="text-left"> {{ item.year }}</td>
+                            <td class="text-left"> {{ item.table_number }}</td>
 
                         </tr>
 
@@ -115,8 +123,13 @@ export default {
         },
 
         open_detail_page(id) {
+            //console.log(id);
+            //window.open('/scores/' + id, '_blank');
+        },
+
+        open_player_detail_page(id) {
             console.log(id);
-            window.open('/scores/' + id, '_blank');
+            window.open('/players/' + id, '_blank');
         },
     },
     computed: {

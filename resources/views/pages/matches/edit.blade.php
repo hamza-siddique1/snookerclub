@@ -238,6 +238,21 @@ $year = isset($match->year) ? $match->year : now();
 
                         </div>
 
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="result">Table #</label>
+                                    <input
+                                        class="form-control form-control-lg"
+                                        type="number"
+                                        name="table"
+                                        value="{{ $match->table }}"
+                                        placeholder="Table #"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <button type="submit" id="add" class="btn btn-lg btn-primary">
                                 Update

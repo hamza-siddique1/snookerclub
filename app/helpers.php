@@ -25,6 +25,21 @@ function get_player_name($id ) {
 
 }
 
+function get_player_slug($id ) {
+
+    $player = \App\Models\Player::select('slug')
+        ->where('id',$id )
+        ->first();
+
+    try {
+        return $player['slug'];
+    }
+    catch (\Exception $e) {
+        return "";
+    }
+
+}
+
 function get_player_name_draw($id ) {
 
     $player = \App\Models\Player::select('name')

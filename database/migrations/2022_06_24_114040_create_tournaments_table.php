@@ -27,6 +27,7 @@ class CreateTournamentsTable extends Migration
             $table->text('result')->nullable();
             $table->text('type')->nullable();
             $table->text('draw_url')->nullable();
+            $table->text('table')->nullable();
             $table->timestamps();
         });
     }

@@ -21,6 +21,11 @@ class PlayerController extends Controller
         return view('pages.players.add');
     }
 
+    public function show(Player $player)
+    {
+        return view('pages.players.front.index', compact('player'));
+    }
+
 
     public function store(Request $request)
     {

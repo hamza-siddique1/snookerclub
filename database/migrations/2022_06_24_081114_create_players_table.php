@@ -16,6 +16,7 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->text('slug');
             $table->integer('highlighted')->default(0);
             $table->date('dob');
             $table->text('birth_place');

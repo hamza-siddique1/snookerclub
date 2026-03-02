@@ -73,6 +73,33 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ request()->is('snooker/*') ? 'active' : '' }} ">
+                    <a data-target="#users" data-toggle="collapse" class="sidebar-link {{ request()->is('snooker/*') ? 'collapsed' : '' }}">
+                        <i class="align-middle" data-feather="arrow-up"></i>
+                        <span class="align-middle">Snooker Matches</span>
+                    </a>
+                    <ul id="users"
+                        class="sidebar-dropdown list-unstyled collapse {{ request()->is('snooker/*') ? 'show' : '' }}"
+                        data-parent="#sidebar">
+
+                        <li class="sidebar-item {{ request()->is('results') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('snooker.matches') }}">
+                                <i class="align-middle" data-feather="arrow-up"></i>
+                                <span class="align-middle">All matches</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item {{ request()->is('snooker/setup') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('snooker.setup') }}">
+                                <i class="align-middle" data-feather="plus-square"></i>
+                                <span class="align-middle">Add New Match</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
 
 
             @if( $role == 'admin')
