@@ -6,9 +6,21 @@
     <script>
         $(document).ready(function () {
             $('#matches-table').DataTable({
-                order: [[8, 'desc']],
+                order: [[5, 'desc']],
             });
         });
+
+        function copyLinkToClipboard(url) {
+            navigator.clipboard.writeText(url).then(() => {
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            });
+        }
     </script>
 @endsection
 
@@ -23,30 +35,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="dt-buttons btn-group flex-wrap">
-
-                    </div>
-
-                    @if(session('delete'))
-                        <x-alert type="danger">{{ session('delete') }}</x-alert>
-                    @elseif(session('password_update'))
-                        <x-alert type="success">{{ session('password_update') }}</x-alert>
-                    @elseif(session('account'))
-                        <x-alert type="success">{{ session('account') }}</x-alert>
-                    @endif
-
 
                     <table id="matches-table" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
                             <th>{{ 'ID' }}</th>
-                            <th>{{ 'Tournament' }}</th>
                             <th>{{ 'Player 1' }}</th>
                             <th>{{ 'Player 2' }}</th>
-                            <th>{{ 'Year' }}</th>
-                            <th>{{ 'Rules' }}</th>
-                            <th>{{ 'Round' }}</th>
-                            <th>{{ 'Winner' }}</th>
+                            <th>{{ 'Remote Link' }}</th>
+                            <th>{{ 'LCD Link' }}</th>
                             <th>{{ 'Created at' }}</th>
                             <th>{{ 'Action' }}</th>
                         </tr>
@@ -56,29 +53,36 @@
                             <tr>
 
                                 <td>{{ $match->id }}</td>
+
+                                <td>{{ get_player_name($match->player_1_id) }} </td>
+
+                                <td>{{ get_player_name($match->player_2_id) }}</td>
+
                                 <td>
-                                    {{ $match->tournament }}
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-primary"
+                                        onclick="copyLinkToClipboard('{{ route('snooker.remote', $match->slug) }}')"
+                                        title="Click to copy remote control link"
+                                    >
+                                        <i class="fa fa-link"></i> Copy Remote
+                                    </button>
                                 </td>
-                                <td>{{ get_player_name($match->player_1) }} </td>
 
-                                <td>{{ get_player_name($match->player_2) }}</td>
-
-                                <td>{{ isset($match->year) ? $match->year->format('Y') : '-' }}</td>
-
-                                <td>{{ $match->rules }}</td>
-
-                                <td>{{ $match->round }}</td>
-
-                                <td>{{ get_player_name($match->winner) }}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-info"
+                                        onclick="copyLinkToClipboard('{{ route('snooker.lcd', $match->slug) }}')"
+                                        title="Click to copy LCD display link"
+                                    >
+                                        <i class="fa fa-link"></i> Copy LCD
+                                    </button>
+                                </td>
 
                                 <td data-sort="{{ strtotime($match->created_at) }}"
                                     title="{{ $match->created_at }}">{{ $match->created_at->diffForHumans() }}</td>
                                 <td class="table-action">
-
-                                    <a href="{{ route('matches.edit', $match->id) }}" class="btn"
-                                       style="display: inline">
-                                        <i class="fa fa-edit text-info"></i>
-                                    </a>
 
                                     <form method="post" action="{{ route('matches.destroy', $match->id) }}"
                                           onsubmit="return confirmSubmission(this, 'Are you sure?' + '{{ "$match->name"  }}')"

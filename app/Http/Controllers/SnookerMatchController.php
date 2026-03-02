@@ -248,16 +248,4 @@ class SnookerMatchController extends Controller
             'match' => $match->toMatchData(),
         ]);
     }
-
-    /**
-     * Get format configuration
-     */
-    private function getFormatConfig(string $format): array
-    {
-        return match ($format) {
-            'best-of-9' => ['frames_to_win' => 5, 'total_frames' => 9],
-            'best-of-19' => ['frames_to_win' => 10, 'total_frames' => 19],
-            'best-of-35' => ['frames_to_win' => 18, 'total_frames' => 35],
-        };
-    }
 }
