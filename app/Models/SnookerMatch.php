@@ -92,32 +92,6 @@ class SnookerMatch extends Model
         $this->save();
     }
 
-    /**
-     * Switch player (end of turn)
-     */
-    public function switchPlayer(): void
-    {
-        $this->recordAction('switch_player');
-
-        $this->current_player = $this->current_player === 'player_1' ? 'player_2' : 'player_1';
-        $this->save();
-    }
-
-    /**
-     * Reset break for a player (player misses)
-     */
-    public function resetBreak(string $player): void
-    {
-        $this->recordAction('reset_break', compact('player'));
-
-        if ($player === 'player_1') {
-            $this->player_1_break = 0;
-        } else {
-            $this->player_2_break = 0;
-        }
-
-        $this->save();
-    }
 
     /**
      * End current frame (declare winner)
@@ -353,4 +327,28 @@ class SnookerMatch extends Model
             'winner' => $this->getWinner(),
         ];
     }
+
+    public function resetBreak(string $player): void
+{
+    $this->recordAction('reset_break', compact('player'));
+
+    if ($player === 'player_1') {
+        $this->player_1_break = 0;  // ← Reset to 0
+    } else {
+        $this->player_2_break = 0;  // ← Reset to 0
+    }
+
+    $this->save();
+}
+
+/**
+ * Switch player (end of turn)
+ */
+public function switchPlayer(): void
+{
+    $this->recordAction('switch_player');
+
+    $this->current_player = $this->current_player === 'player_1' ? 'player_2' : 'player_1';
+    $this->save();
+}
 }

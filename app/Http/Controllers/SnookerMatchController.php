@@ -63,7 +63,6 @@ class SnookerMatchController extends Controller
      */
     public function lcd(SnookerMatch $match)
     {
-        // dd($match);
         return view('snooker.lcd', compact('match'));
     }
 
@@ -133,28 +132,34 @@ class SnookerMatchController extends Controller
     /**
      * Reset break (player misses)
      */
-    public function resetBreak(Request $request, SnookerMatch $match): JsonResponse
-    {
-        $validated = $request->validate([
-            'player' => 'required|in:player_1,player_2',
+public function resetBreak(Request $request, SnookerMatch $match): JsonResponse
+{
+    $validated = $request->validate([
+        'player' => 'required|in:player_1,player_2',
+    ]);
+
+    try {
+        // Get the player who just played
+        $currentPlayer = $validated['player'];
+
+        // Reset their break to 0
+        $match->resetBreak($currentPlayer);
+
+        // Switch to the other player
+        $match->switchPlayer();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Break reset and player switched',
+            'match' => $match->toMatchData(),
         ]);
-
-        try {
-            $match->resetBreak($validated['player']);
-            $match->switchPlayer();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Break reset',
-                'match' => $match->toMatchData(),
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 422);
-        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+        ], 422);
     }
+}
 
     /**
      * End frame (declare winner)

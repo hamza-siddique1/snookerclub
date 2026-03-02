@@ -49,5 +49,8 @@ Route::prefix('snooker')->group(function () {
 
         Route::post('/{match}/status', [SnookerMatchController::class, 'updateStatus'])
             ->name('snooker.api.status');
+
+        Route::delete('/{match}/delete', [SnookerMatchController::class, 'updateStatus'])
+            ->name('snooker.api.delete');
     });
 });
