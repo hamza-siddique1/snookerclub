@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\SnookerMatch;
+use App\Models\Tournament;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -23,6 +24,20 @@ class SnookerMatchController extends Controller
     {
         $players = Player::orderBy('name')->get();
         return view('snooker.setup', compact('players'));
+    }
+
+    public function setup_existing_match()
+    {
+        $matches = Tournament::with([
+                'player1:id,name',
+                'player2:id,name'
+            ])
+            ->select(['id', 'tournament', 'player_1', 'player_2'])
+            ->where('type', 'snooker')
+            ->latest()
+            ->get();
+
+        return view('snooker.add-existing-match', compact('matches'));
     }
 
     /**
@@ -47,6 +62,27 @@ class SnookerMatchController extends Controller
             'table_number' => $validated['table_number'] ?? 'TABLE 1',
             'table_name' => 'Snooker Arena',
             'status' => 'playing',
+            'started_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'match' => $match,
+            'remote_url' => route('snooker.remote', $match->slug),
+            'lcd_url' => route('snooker.lcd', $match->slug),
+        ]);
+    }
+
+    public function create_existing(Request $request): JsonResponse
+    {
+        $match = Tournament::find($request->match);
+
+        $match = SnookerMatch::create([
+            'player_1_id' => $match->player_1,
+            'player_2_id' => $match->player_2,
+            'player_1_name' => get_player_name($match->player_1),
+            'player_2_name' => get_player_name($match->player_2),
+            'table_number' => $request->table_number ?? 'TABLE 1',
             'started_at' => now(),
         ]);
 

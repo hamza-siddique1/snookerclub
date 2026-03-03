@@ -89,6 +89,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ request()->is('snooker/setup/existing-match') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('snooker.setup-existing-match') }}">
+                                <i class="align-middle" data-feather="plus-square"></i>
+                                <span class="align-middle">Select Existing Match</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item {{ request()->is('snooker/setup') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('snooker.setup') }}">
                                 <i class="align-middle" data-feather="plus-square"></i>

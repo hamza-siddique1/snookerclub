@@ -78,10 +78,7 @@ FIXED VERSION - Proper API response handling
                     <div class="info-item-label">P2 SCORE</div>
                     <div class="info-item-value">{{ matchData.player_2_points }}</div>
                 </div>
-                <div class="info-item">
-                    <div class="info-item-label">STATUS</div>
-                    <div class="info-item-value">{{ capitalizeStatus(matchData.status) }}</div>
-                </div>
+
                 <div class="info-item">
                     <div class="info-item-label">FRAME</div>
                     <div class="info-item-value">{{ matchData.current_frame }}/{{ match.total_frames }}</div>
@@ -202,13 +199,6 @@ export default {
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
-        },
-
-        /**
-         * Capitalize status text
-         */
-        capitalizeStatus(status) {
-            return status.charAt(0).toUpperCase() + status.slice(1);
         },
 
         async endBreak() {

@@ -35,13 +35,11 @@ return new class extends Migration
 
             // Playing Status
             $table->string('current_player')->default('player_1'); // who is currently playing
-            $table->enum('status', ['setup', 'playing', 'paused', 'completed'])->default('setup');
 
             // Match History (JSON for action tracking)
             $table->json('actions_history')->nullable();
 
             // Table Information
-            $table->string('table_name')->nullable();
             $table->string('table_number')->nullable();
 
             // Timestamps

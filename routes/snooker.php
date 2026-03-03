@@ -8,12 +8,19 @@ Route::prefix('snooker')->group(function () {
     Route::get('/setup', [SnookerMatchController::class, 'setup'])
         ->name('snooker.setup');
 
+    Route::get('/setup/existing-match', [SnookerMatchController::class, 'setup_existing_match'])
+        ->name('snooker.setup-existing-match');
+
     Route::get('/matches', [SnookerMatchController::class, 'index'])
         ->name('snooker.matches');
 
     // Create match
     Route::post('/create', [SnookerMatchController::class, 'create'])
         ->name('snooker.create');
+
+    // Create match for existing tournament
+    Route::post('/create/existing', [SnookerMatchController::class, 'create_existing'])
+        ->name('snooker.create-existing');
 
     // Display pages
     Route::get('/{match}/lcd', [SnookerMatchController::class, 'lcd'])

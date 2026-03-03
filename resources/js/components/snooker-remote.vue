@@ -128,6 +128,19 @@ export default {
         this.fetch_data();
     },
 
+    watch: {
+        currentPlayer(newPlayer, oldPlayer) {
+        // Skip initial setup
+        if (oldPlayer === undefined || oldPlayer === null) {
+            return;
+        }
+
+        console.log(`🔄 Player switched: ${oldPlayer} → ${newPlayer}`);
+
+        this.endBreak(oldPlayer);
+    }
+    },
+
     methods: {
         fetch_data() {
             var URL = `/snooker/api/${this.match.slug}/data`;
@@ -166,8 +179,8 @@ export default {
             });
         },
 
-        endBreak() {
-            const player = this.currentPlayer === 1 ? 'player_1' : 'player_2';
+        endBreak(player_id) {
+            const player = player_id === 1 ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/reset-break`;
 
             axios.post(URL, { player }, {
@@ -178,7 +191,6 @@ export default {
             .then((response) => {
                 if (response.data.success) {
                     this.fetch_data();
-                    this.selectPlayer(this.currentPlayer === 1 ? 2 : 1);
                 } else {
                     alert('Error: ' + response.data.message);
                 }
