@@ -52,10 +52,8 @@
       </div>
       <div class="rankings-table-section">
          <h3>Current Rankings</h3>
-         <div v-if="rankings.length === 0" class="no-data">
-            <p>No rankings yet. Add one to get started!</p>
-         </div>
-         <table v-else class="table table-striped table-hover">
+
+         <table class="table table-striped table-hover">
             <thead>
                <tr>
                   <th style="width: 60px;">#</th>
