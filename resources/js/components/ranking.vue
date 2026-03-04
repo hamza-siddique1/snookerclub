@@ -135,8 +135,8 @@
 
         computed: {
             availablePlayers() {
-                const rankedPlayerIds = new Set(this.rankings.map(r => r.player_id));
-                return this.players.filter(p => !rankedPlayerIds.has(p.id));
+                // const rankedPlayerIds = new Set(this.rankings.map(r => r.player_id));
+                return this.players;
             }
         },
 
