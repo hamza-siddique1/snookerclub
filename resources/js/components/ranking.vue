@@ -114,7 +114,6 @@
            return {
                rankings: [],
                players: [],
-               availablePlayers: [],
                newRanking: {
                    player_id: null,
                    score: 0
@@ -133,21 +132,20 @@
            this.loadPlayers();
            this.loadRankings();
        },
-       watch: {
-           players() {
-               this.updateAvailablePlayers();
-           },
-           rankings() {
-               this.updateAvailablePlayers();
-           }
-       },
+
+        computed: {
+            availablePlayers() {
+                const rankedPlayerIds = new Set(this.rankings.map(r => r.player_id));
+                return this.players.filter(p => !rankedPlayerIds.has(p.id));
+            }
+        },
+
        methods: {
            async loadPlayers() {
                try {
                    const response = await window.axios.get('/admin/api/rankings/players');
                    if (response.data.success) {
                        this.players = response.data.players;
-                       this.updateAvailablePlayers();
                    }
                } catch (error) {
                    console.error('Error loading players:', error);
@@ -168,11 +166,6 @@
                } finally {
                    this.loading = false;
                }
-           },
-
-           updateAvailablePlayers() {
-               const rankedPlayerIds = this.rankings.map(r => r.player_id);
-               this.availablePlayers = this.players.filter(p => !rankedPlayerIds.includes(p.id));
            },
 
            async addRanking() {
