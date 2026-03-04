@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class PlayerController extends Controller
 {
@@ -45,6 +46,13 @@ class PlayerController extends Controller
             $image_2_name = null;
         }
 
+        if ($request->hasFile('ranking_image')) {
+            $ranking_image = $request->file('ranking_image');
+            $ranking_image_name = Str::slug($request->name) . '.' . $ranking_image->getClientOriginalExtension();
+            $ranking_image->move(public_path('players'), $ranking_image_name);
+        } else {
+            $ranking_image = null;
+        }
 
         $year = substr($request->professional_since, 0, 4);
 
@@ -59,6 +67,7 @@ class PlayerController extends Controller
             'earnings' => $request->earnings,
             'image1' => $image_1_name,
             'image2' => $image_2_name,
+            'ranking_image' => $ranking_image_name,
             'cue' => $request->cue,
             'cue_link' => $request->cue_link,
         ]);

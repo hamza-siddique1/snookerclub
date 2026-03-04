@@ -103,13 +103,16 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+            </li>
 
+            <li class="sidebar-item {{ request()->is('ranking/create') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('admin.rankings.index') }}">
+                        <i class="align-middle" data-feather="plus-square"></i>
+                        <span class="align-middle">Add Player Ranking</span>
+                    </a>
+            </li>
 
-
-
-
-            @if( $role == 'admin')
+                @if( $role == 'admin')
                 <li class="sidebar-header">
                     Manage
                 </li>

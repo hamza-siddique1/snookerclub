@@ -24,6 +24,7 @@ class Player extends Model
         'earnings',
         'image1',
         'image2',
+        'ranking_image',
         'cue',
         'cue_link',
     ];

@@ -192,7 +192,7 @@
                         </div>
 
                         <div class="row mt-3">
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="image">Profile photo</label>
                                     <input
@@ -203,12 +203,23 @@
 
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label for="image">Passport size photo</label>
                                     <input
                                         type="file"
                                         name="image2"
+                                    />
+                                </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="image">Ranking Image</label>
+                                    <input
+                                        type="file"
+                                        name="ranking_image"
                                     />
                                 </div>
 

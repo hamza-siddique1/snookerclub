@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlayerRankingController;
 use App\Http\Controllers\SnookerMatchController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,5 +60,21 @@ Route::prefix('snooker')->group(function () {
 
         Route::delete('/{match}/delete', [SnookerMatchController::class, 'updateStatus'])
             ->name('snooker.api.delete');
+    });
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/rankings', [PlayerRankingController::class, 'index'])->name('rankings.index');
+
+        Route::prefix('api/rankings')->name('rankings.')->group(function () {
+            Route::get('/', [PlayerRankingController::class, 'getRankings'])->name('get');
+            Route::get('/players', [PlayerRankingController::class, 'getPlayers'])->name('players');
+            Route::post('/', [PlayerRankingController::class, 'store'])->name('store');
+            Route::put('/{ranking}', [PlayerRankingController::class, 'update'])->name('update');
+            Route::delete('/{ranking}', [PlayerRankingController::class, 'destroy'])->name('destroy');
+            Route::post('/{ranking}/increase-score', [PlayerRankingController::class, 'increaseScore'])->name('increase-score');
+            Route::post('/{ranking}/decrease-score', [PlayerRankingController::class, 'decreaseScore'])->name('decrease-score');
+        });
     });
 });
