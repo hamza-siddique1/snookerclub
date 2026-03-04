@@ -176,7 +176,6 @@
            },
 
            async addRanking() {
-            console.log(this.newRanking);
                if (!this.newRanking.player_id) {
                    this.showError('Please select a player');
                    return;
