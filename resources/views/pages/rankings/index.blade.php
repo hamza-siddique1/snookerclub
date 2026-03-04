@@ -5,6 +5,6 @@
     <player-rankings-manager></player-rankings-manager>
 </div>
 
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}?t={{ time() }}"></script>
 
 @endsection
