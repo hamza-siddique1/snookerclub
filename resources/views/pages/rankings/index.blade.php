@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="app">
-    <player-rankings-manager></player-rankings-manager>
+    <ranking></ranking>
 </div>
 
 <script src="{{ mix('js/app.js') }}?t={{ time() }}"></script>
