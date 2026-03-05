@@ -106,7 +106,6 @@ class SnookerMatch extends Model
 
         // Check if match is won
         if ($this->isMatchWon()) {
-            $this->status = 'completed';
             $this->ended_at = now();
         } else {
             // Start new frame

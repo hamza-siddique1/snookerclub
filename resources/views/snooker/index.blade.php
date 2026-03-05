@@ -54,9 +54,9 @@
 
                                 <td>{{ $match->id }}</td>
 
-                                <td>{{ get_player_name($match->player_1_id) }} </td>
+                                <td>{{ $match->player_1_id ? get_player_name($match->player_1_id) : $match->player_1_name }} </td>
 
-                                <td>{{ get_player_name($match->player_2_id) }}</td>
+                                <td>{{ $match->player_2_id ? get_player_name($match->player_2_id) : $match->player_2_name }} </td>
 
                                 <td>
                                     <button
