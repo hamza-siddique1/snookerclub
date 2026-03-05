@@ -47,11 +47,15 @@ class PlayerController extends Controller
         }
 
         if ($request->hasFile('ranking_image')) {
-            $ranking_image = $request->file('ranking_image');
-            $ranking_image_name = Str::slug($request->name) . '.' . $ranking_image->getClientOriginalExtension();
-            $ranking_image->move(public_path('players'), $ranking_image_name);
+
+            $file = $request->file('ranking_image');
+
+            $ranking_image_name = Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
+
+            $path = $file->storeAs('players', $ranking_image_name, 'public');
+
         } else {
-            $ranking_image = null;
+            $path = null;
         }
 
         $year = substr($request->professional_since, 0, 4);
@@ -67,7 +71,7 @@ class PlayerController extends Controller
             'earnings' => $request->earnings,
             'image1' => $image_1_name,
             'image2' => $image_2_name,
-            'ranking_image' => $ranking_image_name,
+            'ranking_image' => $path,
             'cue' => $request->cue,
             'cue_link' => $request->cue_link,
         ]);
