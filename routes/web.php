@@ -27,7 +27,6 @@ Route::get('/test', function() {
    // new branch
 });
 
-Route::get('/', [PlayerHistory::class, 'index_front'])->name('homepage.front');
 
 Route::get('scores', [TournamentController::class, 'results'])->name('tournament.results');
 Route::get('api/scores', [TournamentController::class, 'results_api']);

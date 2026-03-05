@@ -218,10 +218,10 @@ class PlayerRankingController extends Controller
         }
     }
 
-    public function leaderboard(): View
+    public function leaderboard()
     {
         $rankings = PlayerRanking::getTopRankings(100);
 
-        return view('leaderboard', compact('rankings'));
+        return view('pages.rankings.leaderboard', compact('rankings'));
     }
 }
