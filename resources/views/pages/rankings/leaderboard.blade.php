@@ -60,7 +60,7 @@
         <img
           alt="{{ $ranking['player']['name'] }}"
           class="h-full mx-auto"
-          src="{{ $ranking['player']['image1'] }}"
+          src="players/{{ $ranking['player']['ranking_image'] }}"
         >
       </div>
 
