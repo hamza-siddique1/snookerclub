@@ -45,23 +45,12 @@ class SnookerMatchController extends Controller
      */
     public function create(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'player_1_id' => 'required|exists:players,id',
-            'player_2_id' => 'required|exists:players,id|different:player_1_id',
-            'table_number' => 'nullable|string|max:20',
-        ]);
-
-        $player1 = Player::find($validated['player_1_id']);
-        $player2 = Player::find($validated['player_2_id']);
-
         $match = SnookerMatch::create([
-            'player_1_id' => $player1->id,
-            'player_2_id' => $player2->id,
-            'player_1_name' => $player1->name,
-            'player_2_name' => $player2->name,
-            'table_number' => $validated['table_number'] ?? 'TABLE 1',
-            'table_name' => 'Snooker Arena',
-            'status' => 'playing',
+            'player_1_id' => 0,
+            'player_2_id' => 0,
+            'player_1_name' => $request->player_1,
+            'player_2_name' => $request->player_2,
+            'table_number' => $request->table_number ?? 'TABLE 1',
             'started_at' => now(),
         ]);
 

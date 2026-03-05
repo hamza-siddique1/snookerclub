@@ -15,25 +15,25 @@
 
             <!-- Player Selection -->
             <div class="form-section">
-                <div class="section-title">Select Players</div>
+                <div class="section-title">Add Players</div>
                 <div class="player-selection">
                     <div class="player-selector">
                         <label class="player-label">Player 1</label>
-                        <select id="player1" name="player_1_id" class="player-input" required>
-                            <option value="">-- Select Player --</option>
-                            @foreach($players as $player)
-                                <option value="{{ $player->id }}">{{ $player->name }}</option>
-                            @endforeach
-                        </select>
+                        <input
+                            type="text"
+                            name="player_1"
+                            class="player-input"
+                            placeholder="Player 1"
+                        >
                     </div>
                     <div class="player-selector">
                         <label class="player-label">Player 2</label>
-                        <select id="player2" name="player_2_id" class="player-input" required>
-                            <option value="">-- Select Player --</option>
-                            @foreach($players as $player)
-                                <option value="{{ $player->id }}">{{ $player->name }}</option>
-                            @endforeach
-                        </select>
+                        <input
+                            type="text"
+                            name="player_2"
+                            class="player-input"
+                            placeholder="Player 2"
+                        >
                     </div>
                 </div>
             </div>
