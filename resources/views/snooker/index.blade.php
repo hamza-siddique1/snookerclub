@@ -45,7 +45,6 @@
                             <th>{{ 'Remote Link' }}</th>
                             <th>{{ 'LCD Link' }}</th>
                             <th>{{ 'Created at' }}</th>
-                            <th>{{ 'Action' }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -82,21 +81,6 @@
 
                                 <td data-sort="{{ strtotime($match->created_at) }}"
                                     title="{{ $match->created_at }}">{{ $match->created_at->diffForHumans() }}</td>
-                                <td class="table-action">
-
-                                    <form method="post" action="{{ route('matches.destroy', $match->id) }}"
-                                          onsubmit="return confirmSubmission(this, 'Are you sure?' + '{{ "$match->name"  }}')"
-                                          style="display: inline">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button class="btn text-danger"
-                                                href="{{ route('matches.destroy', $match->id) }}">
-                                            <i class="fa fa-trash"></i>
-
-                                        </button>
-                                    </form>
-                                </td>
                             </tr>
                         @endforeach
                         </tbody>
