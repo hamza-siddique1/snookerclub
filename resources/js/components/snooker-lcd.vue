@@ -1,91 +1,89 @@
-<!--
-resources/js/components/SnookerLcdDisplay.vue
-FIXED VERSION - Proper API response handling
--->
-
 <template>
-    <div id="lcd-app">
-        <div class="lcd-container">
-            <!-- Header -->
-            <div class="header">
-                <div class="logo">🎱 ELITE<br>BILLIARD SCORER</div>
-                <div class="table-name">{{ match.table_number }}</div>
-                <div class="crest">👑</div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Player 1 -->
-                <div class="player-panel">
-                    <div class="player-name">{{ match.player_1_name.toUpperCase() }}</div>
-
-                    <div class="score-section">
-                        <div class="score-item">
-                            <div class="score-label">FRAMES</div>
-                            <div class="score-value frame-value">{{ matchData.player_1_frames }}</div>
+<div class="relative rounded-2xl overflow-hidden border border-white/10 bg-[linear-gradient(160deg,#111811_0%,#0a0e0a_50%,#080c08_100%)] shadow-[0_0_60px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.06)]">
+                  <div class="grid grid-cols-3 items-center border-b border-white/5">
+                    <div class="flex leading-none p-4 justify-center">
+                      <img alt="Logo" class="h-12 w-auto" src="/assets/front/images/logo.png">
+                    </div>
+                    <div class="flex flex-col items-center">
+                      <span class="text-xs tracking-[0.2em] text-white/40 font-semibold mb-0.5">TABLE</span>
+                      <span class="text-3xl font-bold text-white/90">{{ match.table_number }}</span>
+                    </div>
+                    <div class="flex justify-center">
+                      <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.04]">
+                        <span class="text-xl">🎱</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-stretch">
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-r border-white/5 transition-all duration-300 bg-emerald-500/10">
+                      <div class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
+                      <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] [text-shadow:0_0_20px_rgba(74,222,128,0.3)]">{{ match.player_1_name.toUpperCase() }}</div>
+                      <div class="flex items-center gap-3 mb-4">
+                        <span class=" font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_1_frames }}</span>
+                      </div>
+                      <div class="flex items-center gap-3 mb-4">
+                        <span class="font-bold text-[44px] text-red-500 min-w-[60px] text-center">{{ matchData.player_1_break }}</span>
+                      </div>
+                      <div class="flex items-center gap-3">
+                        <span class="font-bold text-[62px] text-white min-w-[60px] text-center">{{ matchData.player_1_points }}</span>
+                      </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-between py-8 px-6 min-w-[180px]">
+                      <div class="flex flex-col items-center gap-1 mb-2">
+                        <div class="flex items-center gap-1">
+                          <span class="font-bold tabular-nums text-3xl tracking-wider text-white">{{ currentTime }}</span>
                         </div>
-                        <div class="score-item">
-                            <div class="score-label">BREAK</div>
-                            <div class="score-value break-value">{{ matchData.player_1_break }}</div>
+                        <div class="flex gap-3 text-[9px] tracking-[0.18em] text-white/30 font-semibold">
+                          <span>HEURES</span>
+                          <span>MIN</span>
+                          <span>SEC</span>
                         </div>
+
+                      </div>
+                      <div class="w-full h-px bg-white/5 my-1"></div>
+                      <div class="flex flex-col items-center my-3">
+                        <span class="text-xs font-bold tracking-[0.15em] text-white/50 mb-0.5">PARTIES</span>
+                        <span class="text-sm font-semibold text-white/30"></span>
+                      </div>
+                      <div class="w-full h-px bg-white/5 my-1"></div>
+                      <div class="flex flex-col items-center my-3">
+                        <span class="text-sm font-bold tracking-[0.2em] text-red-500 [text-shadow:0_0_10px_rgba(239,68,68,0.5)]">BREAK</span>
+                      </div>
+                      <div class="w-full h-px bg-white/5 my-1"></div>
+                      <div class="flex flex-col items-center mt-3">
+                        <span class="text-xs font-bold tracking-[0.15em] text-white/50 mb-0.5">POINTS</span>
+                        <span class="text-sm font-semibold text-white/30"></span>
+                      </div>
                     </div>
-
-                    <div class="score-item">
-                        <div class="score-label">POINTS</div>
-                        <div class="score-value points-value">{{ matchData.player_1_points }}</div>
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-l border-white/5 transition-all duration-300 bg-transparent">
+                      <div class="w-2 h-2 rounded-full mb-3"></div>
+                      <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] ">{{ match.player_2_name.toUpperCase() }}</div>
+                      <div class="flex items-center gap-3 mb-4">
+                        <span class="font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_2_frames }}</span>
+                      </div>
+                      <div class="flex items-center gap-3 mb-4">
+                        <span class="font-bold text-[44px] text-red-500 min-w-[60px] text-center">{{ matchData.player_2_break }}</span>
+                      </div>
+                      <div class="flex items-center gap-3">
+                        <span class="font-bold text-[62px] text-white min-w-[60px] text-center">{{ matchData.player_2_points }}</span>
+                      </div>
                     </div>
+                  </div>
+                  <div class="flex items-center justify-center gap-2 py-4 border-t border-white/5">
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-red"></div>
+                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
+                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
+                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
+                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
+                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
+                  </div>
                 </div>
-
-                <!-- Center Info -->
-                <div class="center-panel">
-                    <div class="time-display">{{ currentTime }}</div>
-
-                    <div class="match-info">
-                        <div class="info-label">PARTIES</div>
-                        <div class="info-value">{{ match.format }}</div>
-                    </div>
-                </div>
-
-                <!-- Player 2 -->
-                <div class="player-panel">
-                    <div class="player-name">{{ match.player_2_name.toUpperCase() }}</div>
-
-                    <div class="score-section">
-                        <div class="score-item">
-                            <div class="score-label">FRAMES</div>
-                            <div class="score-value frame-value">{{ matchData.player_2_frames }}</div>
-                        </div>
-                        <div class="score-item">
-                            <div class="score-label">BREAK</div>
-                            <div class="score-value break-value">{{ matchData.player_2_break }}</div>
-                        </div>
-                    </div>
-
-                    <div class="score-item">
-                        <div class="score-label">POINTS</div>
-                        <div class="score-value points-value">{{ matchData.player_2_points }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Info Bar -->
-            <div class="bottom-bar">
-                <div class="info-item">
-                    <div class="info-item-label">P1 SCORE</div>
-                    <div class="info-item-value">{{ matchData.player_1_points }}</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-item-label">P2 SCORE</div>
-                    <div class="info-item-value">{{ matchData.player_2_points }}</div>
-                </div>
-
-                <div class="info-item">
-                    <div class="info-item-label">FRAME</div>
-                    <div class="info-item-value">{{ matchData.current_frame }}/{{ match.total_frames }}</div>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <script>
