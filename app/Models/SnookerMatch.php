@@ -104,18 +104,10 @@ class SnookerMatch extends Model
             $this->player_2_frames++;
         }
 
-        // Check if match is won
-        if ($this->isMatchWon()) {
-            $this->ended_at = now();
-        } else {
-            // Start new frame
-            $this->current_frame++;
-            $this->player_1_points = 0;
-            $this->player_2_points = 0;
-            $this->player_1_break = 0;
-            $this->player_2_break = 0;
-            $this->current_player = 'player_1'; // Always player 1 starts frame
-        }
+        $this->player_1_points = 0;
+        $this->player_2_points = 0;
+        $this->player_1_break = 0;
+        $this->player_2_break = 0;
 
         $this->save();
     }
