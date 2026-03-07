@@ -15,8 +15,8 @@
                     </div>
                   </div>
                   <div class="flex items-stretch">
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-r border-white/5 transition-all duration-300 bg-emerald-500/10">
-                      <div class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-r border-white/5 transition-all duration-300" :class="this.current_player === 'player_1' ? 'bg-emerald-500/10' : 'bg-transparent'">
+                      <div v-if="this.current_player === 'player_1'" class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
                       <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] [text-shadow:0_0_20px_rgba(74,222,128,0.3)]">{{ match.player_1_name.toUpperCase() }}</div>
                       <div class="flex items-center gap-3 mb-4">
                         <span class=" font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_1_frames }}</span>
@@ -55,8 +55,9 @@
                         <span class="text-sm font-semibold text-white/30"></span>
                       </div>
                     </div>
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-l border-white/5 transition-all duration-300 bg-transparent">
-                      <div class="w-2 h-2 rounded-full mb-3"></div>
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-l border-white/5 transition-all duration-300" :class="this.current_player === 'player_2' ? 'bg-emerald-500/10' : 'bg-transparent'">
+                      <div v-if="this.current_player === 'player_2'" class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
+                        <div class="w-2 h-2 rounded-full mb-3"></div>
                       <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] ">{{ match.player_2_name.toUpperCase() }}</div>
                       <div class="flex items-center gap-3 mb-4">
                         <span class="font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_2_frames }}</span>
@@ -118,6 +119,7 @@ export default {
                 current_frame: this.match.current_frame,
                 table_number: this.match.table_number
             },
+            current_player: 1,
             currentTime: this.getFormattedTime(),
             pollInterval: null,
             timeInterval: null
@@ -181,6 +183,8 @@ export default {
                     current_frame: data.current_frame || this.matchData.current_frame,
                     table_number: data.table_number || this.matchData.table_number
                 };
+
+                this.current_player = data.current_player;
 
                 console.log('Updated matchData:', this.matchData);
             } catch (error) {
@@ -260,274 +264,3 @@ export default {
 }
 </script>
 
-<style scoped>
-:root {
-    --bg-dark: #0a0e14;
-    --border-color: #4a7c59;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --accent-gold: #d4af37;
-    --accent-red: #ff4444;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #1a1a2e, #0f1419);
-    color: var(--text-primary);
-}
-
-#lcd-app {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.lcd-container {
-    width: 100%;
-    max-width: 1600px;
-    aspect-ratio: 16/9;
-    background: #000000;
-    border: 3px solid var(--border-color);
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    padding: 40px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
-    position: relative;
-    overflow: hidden;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 1.3;
-}
-
-.table-name {
-    font-size: 36px;
-    font-weight: bold;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.crest {
-    width: 60px;
-    height: 60px;
-    border: 2px solid var(--accent-gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-}
-
-.main-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    flex: 1;
-    align-items: center;
-}
-
-.player-panel {
-    border: 3px solid var(--border-color);
-    border-radius: 16px;
-    padding: 30px;
-    background: rgba(10, 14, 20, 0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 400px;
-}
-
-.player-name {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.3;
-}
-
-.score-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.score-item {
-    text-align: center;
-}
-
-.score-label {
-    font-size: 14px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.score-value {
-    font-size: 56px;
-    font-weight: 900;
-    font-family: 'Courier New', monospace;
-    color: var(--text-primary);
-    line-height: 1;
-}
-
-.score-value.points-value {
-    color: var(--text-primary);
-    font-size: 64px;
-}
-
-.score-value.break-value {
-    color: var(--accent-red);
-    font-size: 56px;
-}
-
-.score-value.frame-value {
-    color: var(--accent-gold);
-    font-size: 72px;
-}
-
-.center-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    padding: 30px;
-    text-align: center;
-}
-
-.time-display {
-    font-size: 48px;
-    font-family: 'Courier New', monospace;
-    color: var(--accent-gold);
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
-
-.match-info {
-    margin-top: auto;
-}
-
-.info-label {
-    font-size: 14px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.info-value {
-    font-size: 32px;
-    font-weight: bold;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.bottom-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding-top: 20px;
-    border-top: 2px solid var(--border-color);
-    margin-top: 30px;
-}
-
-.info-item {
-    text-align: center;
-}
-
-.info-item-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-}
-
-.info-item-value {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--accent-gold);
-    font-family: 'Courier New', monospace;
-}
-
-@media (max-width: 1366px) {
-    .lcd-container {
-        padding: 20px;
-    }
-
-    .header {
-        margin-bottom: 20px;
-    }
-
-    .main-content {
-        gap: 25px;
-    }
-
-    .player-panel {
-        padding: 20px;
-        min-height: 350px;
-    }
-
-    .player-name {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
-
-    .score-value {
-        font-size: 36px;
-    }
-
-    .score-value.points-value {
-        font-size: 44px;
-    }
-
-    .score-value.frame-value {
-        font-size: 48px;
-    }
-
-    .time-display {
-        font-size: 32px;
-    }
-
-    .info-value {
-        font-size: 22px;
-    }
-
-    .info-item-value {
-        font-size: 22px;
-    }
-}
-</style>
