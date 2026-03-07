@@ -135,12 +135,34 @@ export default {
             this.currentPlayer = player;
         },
 
-        addPointsAction(points) {
+        addPointsAction(points, is_foul = 0) {
             console.log(points);
             const player = this.currentPlayer === 1 ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/add-points`;
 
-            axios.post(URL, { player, points }, {
+            axios.post(URL, { player, points, is_foul: is_foul }, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+            .then((response) => {
+                if (response.data.success) {
+                    this.fetch_data();
+                } else {
+                    alert('Error: ' + response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        },
+
+        addFoulPointsAction(points) {
+            console.log(points);
+            const player = this.currentPlayer === 1 ? 'player_1' : 'player_2';
+            const URL = `/snooker/api/${this.match.slug}/add-foul-points`;
+
+            axios.post(URL, { player, points, type: 'foul' }, {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 }
@@ -279,7 +301,7 @@ export default {
 
             this.currentPlayer = opponentPlayer;
 
-            this.addPointsAction(points);
+            this.addPointsAction(points, 1);
 
             this.currentPlayer = previousPlayer;
         },

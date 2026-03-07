@@ -40,6 +40,9 @@ Route::prefix('snooker')->group(function () {
         Route::post('/{match}/add-points', [SnookerMatchController::class, 'addPoints'])
             ->name('snooker.api.add-points');
 
+        Route::post('/{match}/add-foul-points', [SnookerMatchController::class, 'addFoulPoints'])
+            ->name('snooker.api.add-foul-points');
+
         Route::post('/{match}/switch-player', [SnookerMatchController::class, 'switchPlayer'])
             ->name('snooker.api.switch-player');
 

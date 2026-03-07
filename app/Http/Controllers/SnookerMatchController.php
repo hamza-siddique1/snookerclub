@@ -118,7 +118,12 @@ class SnookerMatchController extends Controller
         ]);
 
         try {
-            $match->addPoints($validated['player'], $validated['points']);
+            if($request->is_foul){
+                $match->addFoulPoints($validated['player'], $validated['points']);
+            }
+            else{
+                $match->addPoints($validated['player'], $validated['points']);
+            }
 
             return response()->json([
                 'success' => true,

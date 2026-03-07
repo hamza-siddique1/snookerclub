@@ -89,6 +89,22 @@ class SnookerMatch extends Model
         $this->save();
     }
 
+    /**
+     * Add foul points to a opponent player
+     */
+    public function addFoulPoints(string $player, int $points): void
+    {
+        $this->validatePoints($points);
+        $this->recordAction('add_points', compact('player', 'points'));
+
+        if ($player === 'player_1') {
+            $this->player_1_points += $points;
+        } else {
+            $this->player_2_points += $points;
+        }
+
+        $this->save();
+    }
 
     /**
      * End current frame (declare winner)
