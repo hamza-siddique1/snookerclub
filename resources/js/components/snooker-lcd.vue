@@ -40,35 +40,35 @@
       </tr>
       <tr class="border-b border-white/5">
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span class="glow-yellow font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_1_frames }}</span>
+          <span class="font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_1_frames }}</span>
         </td>
         <td class="align-middle text-center p-4 py-4 bg-black/50">
           <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">PARTIES</span>
         </td>
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span class="glow-yellow font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_2_frames }}</span>
+          <span class="font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_2_frames }}</span>
         </td>
       </tr>
       <tr class="border-b border-white/5">
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span class="font-bold text-3xl sm:text-4xl text-red-500 glow-red">{{ matchData.player_1_break }}</span>
+          <span v-if="this.current_player == 'player_1'" class="font-bold text-3xl sm:text-4xl text-red-500">{{ matchData.player_1_break }}</span>
         </td>
         <td class="align-middle text-center p-4 py-4 bg-black/50">
-          <span class="text-sm font-bold tracking-[0.2em] text-red-500 glow-red uppercase">BREAK</span>
+          <span class="text-sm font-bold tracking-[0.2em] text-red-500 uppercase">BREAK</span>
         </td>
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span class="font-bold text-3xl sm:text-4xl text-red-500 glow-red">{{ matchData.player_2_break }}</span>
+          <span v-if="this.current_player == 'player_2'" class="font-bold text-3xl sm:text-4xl text-red-500">{{ matchData.player_2_break }}</span>
         </td>
       </tr>
       <tr class="border-b border-white/5">
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="glow-white font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_1_points }}</span>
+          <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_1_points }}</span>
         </td>
         <td class="align-middle text-center p-4 py-4 bg-black/50">
           <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">POINTS</span>
         </td>
         <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span class="glow-white font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_2_points }}</span>
+          <span :class="blinkingFields.player_2_points ? 'animate-blink' : ''" class="font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_2_points }}</span>
         </td>
       </tr>
       <tr>
@@ -297,7 +297,13 @@ watch: {
         if (oldVal !== undefined && newVal !== oldVal) {
             this.triggerBlink('player_1_points');
         }
+    },
+    'matchData.player_2_points': function(newVal, oldVal) {
+        if (oldVal !== undefined && newVal !== oldVal) {
+            this.triggerBlink('player_2_points');
+        }
     }
+
   }
 }
 </script>

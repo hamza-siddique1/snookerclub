@@ -107,7 +107,6 @@ export default {
 
     watch: {
         'matchData.current_player': function(newPlayer, oldPlayer) {
-        // Skip initial setup
         if (oldPlayer === undefined || oldPlayer === null) {
             return;
         }
@@ -124,7 +123,6 @@ export default {
             axios.get(URL)
                 .then((response) => {
                     this.matchData = response.data;
-                    console.log(this.matchData);
                 })
                 .catch((error) => {
                     console.error('Polling error:', error);
@@ -132,13 +130,10 @@ export default {
         },
 
         selectPlayer(player) {
-            console.log(player);
             this.matchData.current_player = player;
-            // this.switchPlayerAction();
         },
 
         addPointsAction(points, is_foul = 0) {
-            console.log(points);
             const player = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/add-points`;
 
@@ -160,7 +155,6 @@ export default {
         },
 
         addFoulPointsAction(points) {
-            console.log(points);
             const player = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/add-foul-points`;
 
@@ -225,9 +219,6 @@ export default {
 
         winFrameAction() {
             const winner = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
-            const playerName = this.matchData.current_player === 1
-                ? this.matchData.player_1.name
-                : this.matchData.player_2.name;
 
             const URL = `/snooker/api/${this.match.slug}/end-frame`;
 
@@ -239,10 +230,6 @@ export default {
             .then((response) => {
                 if (response.data.success) {
                     this.fetch_data();
-                    this.selectPlayer(1);
-                    if (response.data.match_completed) {
-                        alert(`Match completed! ${playerName} wins the match!`);
-                    }
                 } else {
                     alert('Error: ' + response.data.message);
                 }
