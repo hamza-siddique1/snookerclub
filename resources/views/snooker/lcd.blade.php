@@ -28,12 +28,13 @@
             </div>
           </nav>
         </header>
-                <main class="flex-1 pt-16">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="flex items-center justify-center">
-              <div class="relative w-full max-w-5xl font-['Oswald',sans-serif]">
-                <div class="absolute inset-0 rounded-2xl opacity-30 blur-[20px] bg-[radial-gradient(ellipse_at_50%_50%,rgba(74,222,128,0.15)_0%,transparent_70%)]"></div>
+        <main class="flex-1 pt-16">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-center p-4">
+              <div class="w-full max-w-5xl font-['Oswald',sans-serif]">
+                <div class="rounded-2xl overflow-hidden border border-white/10 bg-[#0a0e0a] shadow-2xl">
                   <snooker-lcd :match="{{ json_encode($match) }}"></snooker-lcd>
+                </div>
               </div>
             </div>
           </div>

@@ -2,15 +2,15 @@
   <div class="w-full max-w-[480px] rounded-[28px] border border-white/25 p-5 flex flex-col gap-4 bg-[linear-gradient(180deg,#141424_0%,#0f0f1e_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.05)]">
     <div class="grid grid-cols-2 gap-2.5">
       <button
-        v-for="player in [1, 2]"
+        v-for="player in ['player_1', 'player_2']"
         :key="player"
         type="button"
         class="player-btn flex items-center gap-2 py-2 px-3 rounded-xl cursor-pointer transition-all duration-200 border-2 font-bold text-[11px] tracking-wider whitespace-nowrap overflow-hidden text-ellipsis font-['Rajdhani',sans-serif]"
-        :class="currentPlayer === player ? 'border-amber-400 text-amber-400 bg-amber-400/10' : 'border-white/10 text-white/35 bg-white/[0.03]'"
+        :class="matchData.current_player === player ? 'border-amber-400 text-amber-400 bg-amber-400/10' : 'border-white/10 text-white/35 bg-white/[0.03]'"
         @click="selectPlayer(player)"
       >
         <span class="text-xl">👤</span>
-        <span class="overflow-hidden text-ellipsis text-[14px]">{{ player === 1 ? matchData.player_1.name : matchData.player_2.name }}</span>
+        <span class="overflow-hidden text-ellipsis text-[14px]">{{ player === 'player_1' ? matchData.player_1.name : matchData.player_2.name }}</span>
       </button>
     </div>
     <div class="grid grid-cols-4 gap-2.5">
@@ -79,7 +79,6 @@ export default {
 
     data: function () {
         return {
-            currentPlayer: 1,
             matchData: {
                 player_1: {
                     name: this.match.player_1_name,
@@ -107,7 +106,7 @@ export default {
     },
 
     watch: {
-        currentPlayer(newPlayer, oldPlayer) {
+        'matchData.current_player': function(newPlayer, oldPlayer) {
         // Skip initial setup
         if (oldPlayer === undefined || oldPlayer === null) {
             return;
@@ -125,6 +124,7 @@ export default {
             axios.get(URL)
                 .then((response) => {
                     this.matchData = response.data;
+                    console.log(this.matchData);
                 })
                 .catch((error) => {
                     console.error('Polling error:', error);
@@ -132,12 +132,14 @@ export default {
         },
 
         selectPlayer(player) {
-            this.currentPlayer = player;
+            console.log(player);
+            this.matchData.current_player = player;
+            // this.switchPlayerAction();
         },
 
         addPointsAction(points, is_foul = 0) {
             console.log(points);
-            const player = this.currentPlayer === 1 ? 'player_1' : 'player_2';
+            const player = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/add-points`;
 
             axios.post(URL, { player, points, is_foul: is_foul }, {
@@ -159,7 +161,7 @@ export default {
 
         addFoulPointsAction(points) {
             console.log(points);
-            const player = this.currentPlayer === 1 ? 'player_1' : 'player_2';
+            const player = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/add-foul-points`;
 
             axios.post(URL, { player, points, type: 'foul' }, {
@@ -180,7 +182,7 @@ export default {
         },
 
         endBreak(player_id) {
-            const player = player_id === 1 ? 'player_1' : 'player_2';
+            const player = player_id === 'player_1' ? 'player_1' : 'player_2';
             const URL = `/snooker/api/${this.match.slug}/reset-break`;
 
             axios.post(URL, { player }, {
@@ -211,7 +213,7 @@ export default {
             .then((response) => {
                 if (response.data.success) {
                     this.fetch_data();
-                    this.selectPlayer(this.currentPlayer === 1 ? 2 : 1);
+                    this.selectPlayer(this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2');
                 } else {
                     alert('Error: ' + response.data.message);
                 }
@@ -222,8 +224,8 @@ export default {
         },
 
         winFrameAction() {
-            const winner = this.currentPlayer === 1 ? 'player_1' : 'player_2';
-            const playerName = this.currentPlayer === 1
+            const winner = this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2';
+            const playerName = this.matchData.current_player === 1
                 ? this.matchData.player_1.name
                 : this.matchData.player_2.name;
 
@@ -296,14 +298,14 @@ export default {
         },
 
         foulPointsAction(points) {
-            const opponentPlayer = this.currentPlayer === 1 ? 2 : 1;
-            const previousPlayer = this.currentPlayer;
+            const opponentPlayer = this.matchData.current_player === 'player_1' ? 'player_2' : 'player_1';
+            const previousPlayer = this.matchData.current_player;
 
-            this.currentPlayer = opponentPlayer;
+            this.matchData.current_player = opponentPlayer;
 
             this.addPointsAction(points, 1);
 
-            this.currentPlayer = previousPlayer;
+            this.matchData.current_player = previousPlayer;
         },
 
         playAction() {

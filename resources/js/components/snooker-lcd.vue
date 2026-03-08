@@ -1,90 +1,94 @@
 <template>
-<div class="relative rounded-2xl overflow-hidden border border-white/10 bg-[linear-gradient(160deg,#111811_0%,#0a0e0a_50%,#080c08_100%)] shadow-[0_0_60px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.06)]">
-                  <div class="grid grid-cols-3 items-center border-b border-white/5">
-                    <div class="flex leading-none p-4 justify-center">
-                      <img alt="Logo" class="h-12 w-auto" src="/assets/front/images/logo.png">
-                    </div>
-                    <div class="flex flex-col items-center">
-                      <span class="text-xs tracking-[0.2em] text-white/40 font-semibold mb-0.5">TABLE</span>
-                      <span class="text-3xl font-bold text-white/90">{{ match.table_number }}</span>
-                    </div>
-                    <div class="flex justify-center">
-                      <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.04]">
-                        <span class="text-xl">🎱</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-stretch">
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-r border-white/5 transition-all duration-300" :class="this.current_player === 'player_1' ? 'bg-emerald-500/10' : 'bg-transparent'">
-                      <div v-if="this.current_player === 'player_1'" class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
-                      <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] [text-shadow:0_0_20px_rgba(74,222,128,0.3)]">{{ match.player_1_name.toUpperCase() }}</div>
-                      <div class="flex items-center gap-3 mb-4">
-                        <span class=" font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_1_frames }}</span>
-                      </div>
-                      <div class="flex items-center gap-3 mb-4">
-                        <span class="font-bold text-[44px] text-red-500 min-w-[60px] text-center">{{ matchData.player_1_break }}</span>
-                      </div>
-                      <div class="flex items-center gap-3">
-                        <span class="font-bold text-[62px] text-white min-w-[60px] text-center">{{ matchData.player_1_points }}</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-between py-8 px-6 min-w-[180px]">
-                      <div class="flex flex-col items-center gap-1 mb-2">
-                        <div class="flex items-center gap-1">
-                          <span class="font-bold tabular-nums text-3xl tracking-wider text-white">{{ currentTime }}</span>
-                        </div>
-                        <div class="flex gap-3 text-[9px] tracking-[0.18em] text-white/30 font-semibold">
-                          <span>HEURES</span>
-                          <span>MIN</span>
-                          <span>SEC</span>
-                        </div>
-
-                      </div>
-                      <div class="w-full h-px bg-white/5 my-1"></div>
-                      <div class="flex flex-col items-center my-3">
-                        <span class="text-xs font-bold tracking-[0.15em] text-white/50 mb-0.5">PARTIES</span>
-                        <span class="text-sm font-semibold text-white/30"></span>
-                      </div>
-                      <div class="w-full h-px bg-white/5 my-1"></div>
-                      <div class="flex flex-col items-center my-3">
-                        <span class="text-sm font-bold tracking-[0.2em] text-red-500 [text-shadow:0_0_10px_rgba(239,68,68,0.5)]">BREAK</span>
-                      </div>
-                      <div class="w-full h-px bg-white/5 my-1"></div>
-                      <div class="flex flex-col items-center mt-3">
-                        <span class="text-xs font-bold tracking-[0.15em] text-white/50 mb-0.5">POINTS</span>
-                        <span class="text-sm font-semibold text-white/30"></span>
-                      </div>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 px-6 border-l border-white/5 transition-all duration-300" :class="this.current_player === 'player_2' ? 'bg-emerald-500/10' : 'bg-transparent'">
-                      <div v-if="this.current_player === 'player_2'" class="w-2 h-2 rounded-full mb-3 pulse pulse-dot bg-emerald-400"></div>
-                        <div class="w-2 h-2 rounded-full mb-3"></div>
-                      <div class="text-center font-bold text-white leading-tight mb-6 whitespace-pre-line tracking-wider text-[clamp(22px,4vw,32px)] ">{{ match.player_2_name.toUpperCase() }}</div>
-                      <div class="flex items-center gap-3 mb-4">
-                        <span class="font-bold text-[52px] text-amber-400 min-w-[60px] text-center">{{ matchData.player_2_frames }}</span>
-                      </div>
-                      <div class="flex items-center gap-3 mb-4">
-                        <span class="font-bold text-[44px] text-red-500 min-w-[60px] text-center">{{ matchData.player_2_break }}</span>
-                      </div>
-                      <div class="flex items-center gap-3">
-                        <span class="font-bold text-[62px] text-white min-w-[60px] text-center">{{ matchData.player_2_points }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-center justify-center gap-2 py-4 border-t border-white/5">
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-red"></div>
-                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
-                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
-                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
-                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
-                    <div class="rounded-full transition-all duration-200 ball-violet"></div>
-                  </div>
-                </div>
+  <table class="w-full border-collapse table-fixed">
+    <colgroup>
+      <col style="width: 40%;">
+      <col style="width: 20%;">
+      <col style="width: 40%;">
+    </colgroup>
+    <thead class="text-center">
+      <tr class="bg-[#111811] border-b border-white/5 [&amp;&gt;th]:text-center">
+        <th class="align-middle text-center p-4 py-3">
+          <div class="flex items-center justify-center">
+            <img alt="Logo" class="h-12 w-auto" src="/assets/front/images/logo.png">
+          </div>
+        </th>
+        <th class="align-middle text-center p-4 py-3">
+          <span class="text-[16px] tracking-[0.2em] text-white/50 uppercase font-semibold block">TABLE</span>
+          <span class="text-2xl font-bold text-white">{{ match.table_number }}</span>
+        </th>
+        <th class="align-middle text-center p-4 py-3">
+          <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto">
+            <span class="text-lg">🎱</span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-white/5">
+        <td class="align-middle text-center p-4 py-6" :class="getPlayerClass('player_1')">
+          <div v-if="this.current_player === 'player_1'" class="w-2 h-2 rounded-full mb-2 bg-emerald-400 animate-pulse mx-auto"></div>
+          <span class="font-bold text-white text-lg sm:text-xl tracking-wider leading-tight whitespace-pre-line">{{ match.player_1_name.toUpperCase() }}</span>
+        </td>
+        <td class="align-middle text-center p-4 py-6 bg-black/50">
+          <span class="font-bold tabular-nums text-2xl sm:text-3xl tracking-wider block text-white">{{ currentTime }}</span>
+          <span class="text-[9px] tracking-[0.15em] text-white/40 uppercase mt-0.5 inline-block">HEURES MIN SEC</span>
+        </td>
+        <td class="align-middle text-center p-4 py-6" :class="getPlayerClass('player_2')">
+          <div v-if="this.current_player === 'player_2'" class="w-2 h-2 rounded-full mb-2 bg-emerald-400 animate-pulse mx-auto"></div>
+          <span class="font-bold text-white text-lg sm:text-xl tracking-wider leading-tight whitespace-pre-line">{{ match.player_2_name.toUpperCase() }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-white/5">
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
+          <span class="glow-yellow font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_1_frames }}</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4 bg-black/50">
+          <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">PARTIES</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
+          <span class="glow-yellow font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_2_frames }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-white/5">
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
+          <span class="font-bold text-3xl sm:text-4xl text-red-500 glow-red">{{ matchData.player_1_break }}</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4 bg-black/50">
+          <span class="text-sm font-bold tracking-[0.2em] text-red-500 glow-red uppercase">BREAK</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
+          <span class="font-bold text-3xl sm:text-4xl text-red-500 glow-red">{{ matchData.player_2_break }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-white/5">
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
+          <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="glow-white font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_1_points }}</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4 bg-black/50">
+          <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">POINTS</span>
+        </td>
+        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
+          <span class="glow-white font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_2_points }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" class="py-4 px-4 bg-[#0a0e0a] text-center">
+          <div class="flex items-center justify-center gap-2">
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-red"></div>
+            <div class="rounded-full ball-violet"></div>
+            <div class="rounded-full ball-violet"></div>
+            <div class="rounded-full ball-violet"></div>
+            <div class="rounded-full ball-violet"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -119,10 +123,18 @@ export default {
                 current_frame: this.match.current_frame,
                 table_number: this.match.table_number
             },
-            current_player: 1,
+            current_player: this.match.current_player,
             currentTime: this.getFormattedTime(),
             pollInterval: null,
-            timeInterval: null
+            timeInterval: null,
+            blinkingFields: {
+              player_1_points: false,
+              player_1_break: false,
+              player_1_frames: false,
+              player_2_points: false,
+              player_2_break: false,
+              player_2_frames: false
+        }
         }
     },
     mounted() {
@@ -228,6 +240,10 @@ export default {
         }
     },
 
+    getPlayerClass(player) {
+      return this.current_player === player ? 'bg-emerald-500/20' : 'bg-black/30';
+    },
+
     /**
      * Miss action - resets break and switches player
      */
@@ -259,8 +275,40 @@ export default {
         } catch (error) {
             console.error('Error adding points:', error);
         }
+    },
+
+    triggerBlink(field) {
+        this.blinkingFields[field] = true;
+        setTimeout(() => {
+            this.blinkingFields[field] = false;
+        }, 3000); // 2 seconds
+    },
+    },
+    computed: {
+      player1ActiveClass() {
+        return this.current_player === 'player_1' ? 'bg-emerald-500/10' : 'bg-transparent';
+      },
+      player2ActiveClass() {
+        return this.current_player === 'player_2' ? 'bg-emerald-500/10' : 'bg-transparent';
+      }
+    },
+watch: {
+    'matchData.player_1_points': function(newVal, oldVal) {
+        if (oldVal !== undefined && newVal !== oldVal) {
+            this.triggerBlink('player_1_points');
+        }
     }
-    }
+  }
 }
 </script>
 
+<style scoped>
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-blink {
+  animation: blink 0.5s ease-in-out 3 !important;
+}
+</style>
