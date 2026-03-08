@@ -18,6 +18,7 @@ class SnookerMatch extends Model
         'frames_to_win',
         'total_frames',
         'current_frame',
+        'potted_balls',
         'player_1_frames',
         'player_2_frames',
         'player_1_points',
@@ -34,6 +35,7 @@ class SnookerMatch extends Model
         'actions_history' => 'json',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
+        'potted_balls' => 'array',
     ];
 
     /**
@@ -78,6 +80,8 @@ class SnookerMatch extends Model
         $this->validatePoints($points);
         $this->recordAction('add_points', compact('player', 'points'));
 
+        $this->addPottedBall($points);
+
         if ($player === 'player_1') {
             $this->player_1_points += $points;
             $this->player_1_break += $points;
@@ -86,6 +90,25 @@ class SnookerMatch extends Model
             $this->player_2_break += $points;
         }
 
+        $this->save();
+    }
+
+    /**
+     * Add potted ball to the sequence
+     */
+    public function addPottedBall(int $points): void
+    {
+        $potted_balls = $this->potted_balls ?? [];
+        $potted_balls[] = $points;
+        $this->potted_balls = $potted_balls;
+    }
+
+    /**
+     * Clear potted balls when break ends
+     */
+    public function clearPottedBalls(): void
+    {
+        $this->potted_balls = [];
         $this->save();
     }
 
@@ -326,9 +349,7 @@ class SnookerMatch extends Model
             'status' => $this->status,
             'table_name' => $this->table_name,
             'table_number' => $this->table_number,
-            'lead' => $this->getLeadInfo(),
-            'is_completed' => $this->status === 'completed',
-            'winner' => $this->getWinner(),
+            'potted_balls' => $this->potted_balls
         ];
     }
 

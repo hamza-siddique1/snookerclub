@@ -35,6 +35,7 @@ return new class extends Migration
 
             // Playing Status
             $table->string('current_player')->default('player_1'); // who is currently playing
+            $table->json('potted_balls')->nullable();
 
             // Match History (JSON for action tracking)
             $table->json('actions_history')->nullable();

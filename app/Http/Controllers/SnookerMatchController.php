@@ -178,6 +178,8 @@ public function resetBreak(Request $request, SnookerMatch $match): JsonResponse
         // Switch to the other player
         $match->switchPlayer();
 
+        $match->clearPottedBalls();
+
         return response()->json([
             'success' => true,
             'message' => 'Break reset and player switched',

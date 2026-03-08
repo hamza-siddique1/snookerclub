@@ -74,16 +74,13 @@
       <tr>
         <td colspan="3" class="py-4 px-4 bg-[#0a0e0a] text-center">
           <div class="flex items-center justify-center gap-2">
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-red"></div>
-            <div class="rounded-full ball-violet"></div>
-            <div class="rounded-full ball-violet"></div>
-            <div class="rounded-full ball-violet"></div>
-            <div class="rounded-full ball-violet"></div>
+            <div
+              v-for="(color, index) in pottedBalls"
+              :key="index"
+              class="rounded-full ball-red"
+              :class="color"
+            >
+            </div>
           </div>
         </td>
       </tr>
@@ -134,7 +131,18 @@ export default {
               player_2_points: false,
               player_2_break: false,
               player_2_frames: false
-        }
+
+            },
+            pottedBalls: [],
+            ballColorMap: {
+                1: 'red',
+                2: 'yellow',
+                3: 'green',
+                4: 'orange',
+                5: 'blue',
+                6: 'purple',
+                7: 'grey'
+            }
         }
     },
     mounted() {
@@ -197,6 +205,9 @@ export default {
                 };
 
                 this.current_player = data.current_player;
+
+                const ballNumbers = data.potted_balls || [];
+                this.pottedBalls = ballNumbers.map(num => this.ballColorMap[num]);
 
                 console.log('Updated matchData:', this.matchData);
             } catch (error) {
@@ -316,5 +327,29 @@ watch: {
 
 .animate-blink {
   animation: blink 0.5s ease-in-out 3 !important;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.grey {
+  background-color: grey;
 }
 </style>
