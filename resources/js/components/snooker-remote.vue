@@ -197,24 +197,7 @@ export default {
         },
 
         switchPlayerAction() {
-            const URL = `/snooker/api/${this.match.slug}/switch-player`;
-
-            axios.post(URL, {}, {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                }
-            })
-            .then((response) => {
-                if (response.data.success) {
-                    this.fetch_data();
-                    this.selectPlayer(this.matchData.current_player === 'player_1' ? 'player_1' : 'player_2');
-                } else {
-                    alert('Error: ' + response.data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            this.matchData.current_player = this.matchData.current_player === 'player_1' ? 'player_2' : 'player_1';
         },
 
         winFrameAction() {
