@@ -329,27 +329,31 @@ watch: {
   animation: blink 0.5s ease-in-out 3 !important;
 }
 
+.red {
+  background-color: #C00000;
+}
+
 .yellow {
-  background-color: yellow;
+  background-color: #FFD700;
 }
 
 .green {
-  background-color: green;
+  background-color: #008000;
 }
 
 .orange {
-  background-color: orange;
+  background-color: #8B4513;
 }
 
 .blue {
-  background-color: blue;
+  background-color: #0057B7;
 }
 
 .purple {
-  background-color: purple;
+  background-color: #FF69B4;
 }
 
 .grey {
-  background-color: grey;
+  background-color: #383636;
 }
 </style>
