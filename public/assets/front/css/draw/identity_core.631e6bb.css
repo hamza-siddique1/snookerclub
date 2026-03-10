@@ -1,0 +1,407 @@
+body {
+    text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--color-combination-7);
+    color: var(--color-secondary-2);
+    font-size: 13px;
+    margin: 0;
+    padding: 0
+}
+
+body.streamWindow {
+    background-color: var(--color-combination-21)
+}
+
+a {
+    color: var(--color-support-4)
+}
+
+a,
+a:hover {
+    text-decoration: none
+}
+
+sub,
+sup {
+    font-size: 80%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline
+}
+
+sub {
+    top: .4em
+}
+
+sup {
+    bottom: .4em
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0
+}
+
+.starActive-ico {
+    fill: #f2b142;
+    stroke: #f2b142;
+    height: 15px;
+    width: 16px
+}
+
+.star-ico,
+.tennis-ico {
+    height: 18px;
+    width: 18px
+}
+
+.stars-ico {
+    fill: #f2b142 !important;
+    stroke: #f2b142 !important
+}
+
+.winner-ico {
+    color: var(--color-support-3);
+    height: 14px;
+    width: 14px
+}
+
+.winner-ico:hover {
+    opacity: .6
+}
+
+.winner-ico.desc-ico {
+    transform: rotate(180deg)
+}
+
+.filter-ico {
+    height: 10px;
+    width: 12px
+}
+
+.tv-ico {
+    color: #8f8f8f
+}
+
+.draw-ico {
+    color: grey
+}
+
+.shirt-ico {
+    color: #8f8f8f
+}
+
+.arrowUp-ico {
+    color: #14dc4b
+}
+
+.arrowDown-ico {
+    color: #dc0000;
+    transform: rotate(180deg)
+}
+
+.sortArrow-ico {
+    height: 4px;
+    width: 8px
+}
+
+.sortGroupsArrow-ico {
+    height: 5px;
+    margin: auto;
+    transform: rotate(-180deg);
+    width: 8px
+}
+
+.preview-ico {
+    --color-fill: none;
+    --color-stroke: var(--color-icon-1);
+    color: var(--color-previewIcon-text);
+    cursor: pointer;
+    font-size: 8px;
+    height: 14px;
+    letter-spacing: .12ex;
+    user-select: none;
+    width: 44px
+}
+
+.preview-ico:hover {
+    --color-fill: #498ffd;
+    --color-stroke: #498ffd;
+    color: #fff
+}
+
+.bet-ico,
+.liveActiveBet-ico,
+.liveBet-ico {
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: LivesportFinderLatin, Tahoma, sans-serif;
+    font-size: 11px;
+    height: 24px;
+    transform: translate(0);
+    width: 24px
+}
+
+.pid_11 .bet-ico,
+.pid_11 .liveActiveBet-ico,
+.pid_11 .liveBet-ico {
+    font-family: livesportFinderGreek, Tahoma, sans-serif
+}
+
+.pid_12 .bet-ico,
+.pid_12 .liveActiveBet-ico,
+.pid_12 .liveBet-ico,
+.pid_30 .bet-ico,
+.pid_30 .liveActiveBet-ico,
+.pid_30 .liveBet-ico,
+.pid_32 .bet-ico,
+.pid_32 .liveActiveBet-ico,
+.pid_32 .liveBet-ico,
+.pid_47 .bet-ico,
+.pid_47 .liveActiveBet-ico,
+.pid_47 .liveBet-ico,
+.pid_812 .bet-ico,
+.pid_812 .liveActiveBet-ico,
+.pid_812 .liveBet-ico {
+    font-family: LivesportFinderCyrillic, Tahoma, sans-serif
+}
+
+.event__match .bet-ico,
+.event__match .liveActiveBet-ico,
+.event__match .liveBet-ico {
+    margin: auto 4px auto auto
+}
+
+.bet-ico {
+    border: 1px solid var(--color-support-2);
+    color: var(--color-support-3)
+}
+
+.bet-ico:hover {
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: var(--color-white)
+}
+
+.liveActiveBet-ico,
+.liveBet-ico {
+    background-color: var(--color-primary-2);
+    border: 1px solid var(--color-primary-2);
+    color: var(--color-white)
+}
+
+.footballOwnGoal-ico {
+    color: var(--color-red)
+}
+
+.footballPenalty-ico {
+    color: var(--color-combination-1)
+}
+
+.penaltyMissed-ico {
+    color: var(--color-red)
+}
+
+.card-ico {
+    height: 14px;
+    width: 9px
+}
+
+.yellowCard-ico {
+    color: var(--color-yellow)
+}
+
+.redCard-ico {
+    color: var(--color-red)
+}
+
+.oddsUp-ico {
+    color: #3fbd40;
+    transform: rotate(90, 2.5, 5)
+}
+
+.oddsDown-ico,
+.oddsUp-ico {
+    height: 16px;
+    object-fit: contain;
+    width: 13px
+}
+
+.oddsDown-ico {
+    color: #d42e2f
+}
+
+.var-ico {
+    color: var(--color-combination-1)
+}
+
+.varLive-ico {
+    color: var(--color-red)
+}
+
+.hockeyGoal-ico,
+.whistle-ico {
+    color: var(--color-combination-1)
+}
+
+.hockeyMajorPenalty-ico,
+.hockeyMinorPenalty-ico,
+.hockeyPersonalFoul-ico {
+    --color-symbol-penalty2min-1: var(--color-yellow);
+    --color-symbol-penalty2min-2: #000
+}
+
+.floorballBall-ico {
+    color: var(--color-combination-1)
+}
+
+.floorballOwnGoal-ico {
+    color: var(--color-red)
+}
+
+.video-ico {
+    color: var(--color-combination-1)
+}
+
+.video-ico:hover {
+    opacity: .6
+}
+
+.assist-ico,
+.hockeyAssist-ico {
+    color: var(--color-assist-background)
+}
+
+.theme--dark .jerseyBlack-ico {
+    filter: brightness(1.8)
+}
+
+.americanFootballBall-ico {
+    color: var(--color-americanFootballBall)
+}
+
+.teamLogoPlaceholder-ico {
+    color: #bfbfbf
+}
+
+.emptyTeamLogo-ico {
+    color: var(--color-text-2)
+}
+
+.rugbyBall-ico {
+    color: var(--color-americanFootballBall)
+}
+
+.behind-ico {
+    --color-symbol-behind-1: #000;
+    --color-symbol-behind-2: #fff
+}
+
+.theme--dark .behind-ico {
+    --color-symbol-behind-1: #eee;
+    --color-symbol-behind-2: #000
+}
+
+.handballBall-ico {
+    color: var(--color-handballBall)
+}
+
+.injury-ico {
+    color: #c13f3e
+}
+
+.liveStreamLogo-ico {
+    color: var(--color-red)
+}
+
+.headphones-ico,
+.lineup-ico,
+.serve-ico,
+.stream-ico,
+.streamLocked-ico,
+.tv-ico,
+.winner-ico {
+    height: 14px;
+    width: 14px
+}
+
+.serve-ico {
+    color: var(--color-secondary-2)
+}
+
+.sound-ico {
+    color: var(--color-support-4);
+    height: 16px;
+    width: 16px
+}
+
+.odds-ico {
+    height: 20px;
+    width: 20px
+}
+
+.jersey-ico--white {
+    color: #dfdfdf
+}
+
+.jersey-ico--silver {
+    color: #aaa
+}
+
+.jersey-ico--black {
+    color: #3d3d3d
+}
+
+.jersey-ico--yellow {
+    color: #f4d42c
+}
+
+.jersey-ico--gold {
+    color: #fcb008
+}
+
+.jersey-ico--ochre {
+    color: #ee6e05
+}
+
+.jersey-ico--red {
+    color: #ee171d
+}
+
+.jersey-ico--pink {
+    color: #f08df4
+}
+
+.jersey-ico--turquoise {
+    color: #13baf3
+}
+
+.jersey-ico--blue {
+    color: #1d46f8
+}
+
+.jersey-ico--green {
+    color: #6edb3c
+}
+
+.jersey-ico--blue-polka-dot,
+.jersey-ico--red-polka-dot {
+    --fill-color-dot-jersey: #fff;
+    margin-top: -2px
+}
+
+.jersey-ico--red-polka-dot {
+    color: #ee171d
+}
+
+.jersey-ico--blue-polka-dot {
+    color: #1d8bf8
+    
+}

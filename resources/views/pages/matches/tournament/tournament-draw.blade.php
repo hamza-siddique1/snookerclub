@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/draw/identity_tournament_table.6ead18d.css') }}"
         media="all">
     <link rel="stylesheet" href="{{ asset('assets/front/css/draw/identity-final-style.css') }}" media="all">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/draw/new-styles.css') }}" media="all">
-    <script src="https://kit.fontawesome.com/b479505538.js" crossorigin="anonymous"></script>
-
 </head>
 
 

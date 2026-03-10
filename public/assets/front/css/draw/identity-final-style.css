@@ -1,0 +1,48 @@
+@font-face {
+    font-family: "Verdana";
+    src: url("fonts/verdana.ttf");
+    src: url("fonts/verdana-bold.ttf") format("ttf"),
+    url("fonts/verdana-italic.ttf") format("ttf"),
+    }
+    
+    
+#draw{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.draw__label{
+    font-family: Arial,sans-serif;
+}
+html{
+    scroll-behavior: smooth;
+}
+.bracket{
+    border: 3px solid #fff;
+    border-radius: 0;
+}
+.draw__bracket:after {
+    border-right: 3px solid #fff;
+}
+.draw__bracket--odd:after{
+    border-top: 3px solid #fff;
+    border-radius: 0;
+}
+.draw__bracket--even:after{
+    border-bottom: 3px solid #fff;
+    border-radius: 0;
+}
+.fa-solid{
+    display: none;
+}
+.tournamentStage{
+    background-color: #c1272d !important;
+}
+
+
+
+
+@media only screen and (max-width: 479px){
+    .draw__brackets {
+       margin: 0 18px; 
+    }
+    
+}
