@@ -22,7 +22,7 @@
                         <select id="player1" name="match" class="player-input" required>
                             <option value="">-- Select Match --</option>
                             @foreach($matches as $match)
-                                <option value="{{ $match->id }}">{{ $match->tournament }} - {{ $match->player1->name }} vs {{ $match->player2->name }}</option>
+                                <option value="{{ $match->id }}">{{ $match->tournament }} - {{ $match->player1?->name }} vs {{ $match->player2?->name }}</option>
                             @endforeach
                         </select>
                     </div>
