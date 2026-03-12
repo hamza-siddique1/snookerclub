@@ -104,4 +104,93 @@ class TournamentBracketService
 
         });
     }
+
+    public function updateMatch($match, $data)
+    {
+
+        DB::transaction(function () use ($match, $data) {
+            /*
+            -------------------------
+            Update match data
+            -------------------------
+            */
+
+            $match->score_player_1 = $data['score_player_1'] ?? null;
+            $match->score_player_2 = $data['score_player_2'] ?? null;
+
+            $match->break_run_player_1 = $data['break_and_run_player_1'] ?? null;
+            $match->break_run_player_2 = $data['break_and_run_player_2'] ?? null;
+
+            $match->table = $data['table'] ?? null;
+
+            $match->status = $data['status'];
+
+            /*
+            -------------------------
+            Determine Winner
+            -------------------------
+            */
+
+            if (!empty($data['winner_id'])) {
+
+                $match->winner_id = $data['winner_id'];
+
+            } else {
+
+                if ($match->score_player_1 > $match->score_player_2) {
+                    $match->winner_id = $match->player1_id;
+                }
+
+                if ($match->score_player_2 > $match->score_player_1) {
+                    $match->winner_id = $match->player2_id;
+                }
+            }
+
+            $match->save();
+
+
+            /*
+            -------------------------
+            Advance winner
+            -------------------------
+            */
+
+            if ($match->winner_id && $match->next_match_id) {
+
+                $this->advanceWinner($match);
+            }
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Move winner to next bracket
+    |--------------------------------------------------------------------------
+    */
+
+    private function advanceWinner($match)
+    {
+
+        $nextMatch = TournamentMatch::find($match->next_match_id);
+
+        if (!$nextMatch) {
+            return;
+        }
+
+        if ($match->next_match_slot == 1) {
+
+            $nextMatch->player1_id = $match->winner_id;
+
+        } else {
+
+            $nextMatch->player2_id = $match->winner_id;
+
+        }
+
+        $nextMatch->save();
+
+    }
 }

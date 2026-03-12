@@ -69,15 +69,17 @@ class TournamentController extends Controller
 
     public function update(Request $request, TournamentMatch $match)
     {
+      $service = new TournamentBracketService();
+
+      $service->updateMatch($match, $request->all());
+
+    return redirect()
+        ->back()
+        ->with('success','Match updated successfully');
+
         $match->update([
             'round' => $request->round,
-            'winner_id' => $request->winner_id == -100 ? null : $request->winner_id,
-            'score_player_1' => $request->score_player_1,
-            'score_player_2' => $request->score_player_2,
-            'break_run_player_1' => $request->break_and_run_player_1,
-            'break_run_player_2' => $request->break_and_run_player_2,
-            'status' => $request->status,
-            'table' => $request->table
+
         ]);
 
         Session::flash('success', 'Successfully updated.');
