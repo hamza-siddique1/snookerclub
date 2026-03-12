@@ -137,14 +137,14 @@ class TournamentBracketService
 
             } else {
 
-                if ($match->score_player_1 > $match->score_player_2) {
-                    $match->winner_id = $match->player1_id;
-                }
+                    if ($match->score_player_1 > $match->score_player_2) {
+                        $match->winner_id = $match->player1_id;
+                    }
 
-                if ($match->score_player_2 > $match->score_player_1) {
-                    $match->winner_id = $match->player2_id;
+                    if ($match->score_player_2 > $match->score_player_1) {
+                        $match->winner_id = $match->player2_id;
+                    }
                 }
-            }
 
             $match->save();
 

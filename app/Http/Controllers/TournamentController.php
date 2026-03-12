@@ -477,8 +477,8 @@ class TournamentController extends Controller
     $matchesArray = $matches->values()->map(function($match){
         return [
             'id' => $match->id,
-            'player1' => $match->player1->name ?? 'TBD',
-            'player2' => $match->player2->name ?? 'TBD',
+            'player1' => $match->player1->name ?? '',
+            'player2' => $match->player2->name ?? '',
             'player1_score' => $match->score_player_1,
             'player2_score' => $match->score_player_2,
             'winner' => $match->winner->name ?? null,

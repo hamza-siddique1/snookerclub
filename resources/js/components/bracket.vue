@@ -2,7 +2,7 @@
   <div id="5" class="draw__round ">
     <div class="draw__header">
       <div class="draw__arrow draw__arrow--previous"></div>
-      <div class="draw__label">Quarter-finals</div>
+      <div class="draw__label">{{ roundLabel }}</div>
       <div class="draw__arrow draw__arrow--next"></div>
     </div>
     <div class="draw__brackets">
@@ -76,7 +76,18 @@ export default {
     },
     data: function () {
         return {
-            matches: []
+            matches: [],
+            roundMap: {
+                1: 'Quarter-finals',
+                2: 'Semi-finals',
+                3: 'Final'
+            }
+        }
+    },
+
+    computed: {
+        roundLabel() {
+            return this.roundMap[this.round] || '--';
         }
     },
 
