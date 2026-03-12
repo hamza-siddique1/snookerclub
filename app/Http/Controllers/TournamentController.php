@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\Tournament;
+use App\Services\TournamentBracketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -401,12 +402,18 @@ class TournamentController extends Controller
 
     public function store_tournament()
     {
+        $service = new TournamentBracketService();
+        $service->create_brackets($data = request()->all());
+        return;
+
         $player1 = request('player1');
         $player2 = request('player2');
         $no_of_players = request('number_of_players');
         $type = request('type');
 
         $round = $this->get_round($no_of_players);
+
+
 
         for ($i = 0; $i < request('total_matches'); $i++) {
 
@@ -536,6 +543,56 @@ class TournamentController extends Controller
 
         return view('pages.matches.tournament.tournament-draw', get_defined_vars());
     }
+
+    public function get_bracket_data(Request $request)
+    {
+        $tournament_title = $request->tournament_title;
+        $level = $request->level;
+
+        $tournaments = Tournament::where('tournament', $tournament_title)
+            ->where('level', $level)
+            ->get();
+
+        $data = [];
+
+        foreach ($tournaments as $tournament) {
+
+            $winner = null;
+            if ($tournament->status != Tournament::ACTION_CREATED) {
+                if ($tournament->score_player_1 > $tournament->score_player_2) {
+                    $winner = $tournament->player_1;
+                } elseif ($tournament->score_player_2 > $tournament->score_player_1) {
+                    $winner = $tournament->player_2;
+                }
+            }
+
+            $data[] = [
+                'id' => $tournament->id,
+
+                'player_1_name' => get_player_name_draw($tournament->player_1),
+                'player_1_id' => $tournament->player_1,
+
+                'player_2_name' => get_player_name_draw($tournament->player_2),
+                'player_2_id' => $tournament->player_2,
+
+                'score_player_1' => $tournament->status == Tournament::ACTION_CREATED
+                    ? '-'
+                    : $tournament->score_player_1,
+
+                'score_player_2' => $tournament->player_2 == 0
+                    ? '-'
+                    : ($tournament->status == Tournament::ACTION_CREATED
+                        ? '-'
+                        : $tournament->score_player_2),
+
+                'winner' => $winner,
+                'round' => $tournament->round,
+            ];
+        }
+
+        return response()->json($data);
+    }
+
 
     function get_mapped_tournaments($tournaments, $second_array)
     {

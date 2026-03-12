@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\BracketController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerHistory;
@@ -95,3 +96,27 @@ Route::get('/reset', function () {
             \Artisan::call('optimize:clear');
             dd('Database cleared');
         });
+
+
+        Route::prefix('bracket')->group(function () {
+
+    // Show bracket view
+    Route::get('{tournamentId}', [BracketController::class, 'show'])
+        ->name('bracket.show');
+
+    // Get bracket data (AJAX)
+    Route::get('{tournamentId}/data', [BracketController::class, 'getBracketData'])
+        ->name('bracket.data');
+
+    // Get specific match details
+    Route::get('match/{matchId}', [BracketController::class, 'getMatch'])
+        ->name('bracket.getMatch');
+
+    // Update match result
+    Route::post('match/{matchId}/update', [BracketController::class, 'updateMatch'])
+        ->name('bracket.updateMatch');
+
+    // Create new tournament
+    Route::post('create', [BracketController::class, 'create'])
+        ->name('bracket.create');
+});

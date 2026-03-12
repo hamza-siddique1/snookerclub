@@ -22,6 +22,7 @@ Vue.component('tournaments', require('./components/tournaments.vue').default);
 Vue.component('snooker-remote', require('./components/snooker-remote.vue').default);
 Vue.component('snooker-lcd', require('./components/snooker-lcd.vue').default);
 Vue.component('ranking', require('./components/ranking.vue').default);
+Vue.component('bracket', require('./components/quarter-final.vue').default);
 
 
 
