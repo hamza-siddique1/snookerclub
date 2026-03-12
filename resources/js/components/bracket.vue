@@ -21,9 +21,9 @@
       <div class="bracket__participant bracket__participant--home">
         <span
           class="bracket__name"
-          :class="{ 'bracket__name--advancing': match.winner == match.player_1_id }"
+          :class="{ 'bracket__name--advancing': match.winner == match.player1 }"
         >
-          {{ match.player_1_name }}
+          {{ match.player1 }}
         </span>
 
         <span class="bracket__info"></span>
@@ -31,7 +31,7 @@
 
       <div class="bracket__result bracket__result--home">
         <div class="result">
-          {{ match.score_player_1 }}
+          {{ match.player1_score }}
         </div>
       </div>
 
@@ -39,9 +39,9 @@
       <div class="bracket__participant bracket__participant--away">
         <span
           class="bracket__name"
-          :class="{ 'bracket__name--advancing': match.winner == match.player_2_id }"
+          :class="{ 'bracket__name--advancing': match.winner == match.player2 }"
         >
-          {{ match.player_2_name }}
+          {{ match.player2 }}
         </span>
 
         <span class="bracket__info"></span>
@@ -49,7 +49,7 @@
 
       <div class="bracket__result bracket__result--away">
         <div class="result">
-          {{ match.score_player_2 }}
+          {{ match.player2_score }}
         </div>
       </div>
 
@@ -68,7 +68,7 @@ export default {
             type: String,
             required: true
         },
-        level: {
+        round: {
             type: String,
             required: true
         },
@@ -94,7 +94,7 @@ export default {
             axios.get('/get-bracket-data', {
         params: {
             tournament_title: this.tournament,
-            level: this.level
+            round: this.round
         }
     }).then(res => {
         this.matches = res.data;

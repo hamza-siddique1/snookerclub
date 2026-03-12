@@ -45,7 +45,7 @@
                         </div>
                         <div class="dropDown dropDown--tableDraw">
                             <div class="dropDown__selectedValue " tabindex="0">
-                                {{ $first_tournament?->year->format('Y') ?? 'N/A' }}</div>
+                                {{ $tournament->year ?? 'N/A' }}</div>
                         </div>
                     </div>
                     <div>
@@ -63,18 +63,18 @@
                                     <div class="draw__clearHeader"></div>
                                     <div id="app" class="draw" style="--i:0;">
                                         <bracket
-                                            :tournament='@json($tournament_title)'
-                                            :level='@json("1")'>
+                                            :tournament='@json($tournament->title)'
+                                            :round='@json("1")'>
                                         </bracket>
 
                                         <bracket
-                                            :tournament='@json($tournament_title)'
-                                            :level='@json("2")'>
+                                            :tournament='@json($tournament->title)'
+                                            :round='@json("2")'>
                                         </bracket>
 
                                         <bracket
-                                            :tournament='@json($tournament_title)'
-                                            :level='@json("3")'>
+                                            :tournament='@json($tournament->title)'
+                                            :round='@json("3")'>
                                         </bracket>
                                     </div>
                                 </div>
