@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\Tournament;
+use App\Models\TournamentMatch;
 use App\Services\TournamentBracketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -15,8 +16,15 @@ class TournamentController extends Controller
 
     public function index()
     {
-        $matches = Tournament::latest()->where('player_2', '!=', 0)->get();
-        return view('pages.matches.index', compact('matches'));
+        $tournaments = Tournament::with([
+            'matches.player1',
+            'matches.player2',
+            'matches.winner'
+        ])
+        ->latest()
+        ->get();
+
+        return view('pages.matches.index', compact('tournaments'));
     }
 
     public function create()
@@ -48,18 +56,22 @@ class TournamentController extends Controller
         return redirect()->route('matches.create');
     }
 
-    public function edit(Tournament $match)
+    public function edit(TournamentMatch $match)
     {
+        $match->load([
+            'player1',
+            'player2',
+            'winner'
+        ]);
+
         return view('pages.matches.edit', compact('match'));
     }
 
-    public function update(Request $request, Tournament $match)
+    public function update(Request $request, TournamentMatch $match)
     {
-        //update match
         $match->update([
-            'year' => $request->year,
             'round' => $request->round,
-            'winner' => $request->winner == -100 ? null : $request->winner,
+            'winner_id' => $request->winner_id == -100 ? null : $request->winner_id,
             'score_player_1' => $request->score_player_1,
             'score_player_2' => $request->score_player_2,
             'break_run_player_1' => $request->break_and_run_player_1,
@@ -70,7 +82,6 @@ class TournamentController extends Controller
 
         Session::flash('success', 'Successfully updated.');
         return back();
-
     }
 
     public function destroy(Tournament $match)

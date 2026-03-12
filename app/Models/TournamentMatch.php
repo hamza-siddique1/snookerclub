@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Expr\AssignOp\Plus;
 
 class TournamentMatch extends Model
 {
@@ -13,14 +14,20 @@ class TournamentMatch extends Model
 
     protected $fillable = [
         'tournament_id',
+        'year',
         'round',
         'match_number',
         'player1_id',
         'player2_id',
+        'score_player_1',
+        'score_player_2',
+        'break_run_player_1',
+        'break_run_player_2',
         'winner_id',
         'next_match_id',
         'next_match_slot',
-        'status'
+        'status',
+        'table'
     ];
 
     /*
@@ -36,17 +43,17 @@ class TournamentMatch extends Model
 
     public function player1()
     {
-        return $this->belongsTo(User::class, 'player1_id');
+        return $this->belongsTo(Player::class, 'player1_id');
     }
 
     public function player2()
     {
-        return $this->belongsTo(User::class, 'player2_id');
+        return $this->belongsTo(Player::class, 'player2_id');
     }
 
     public function winner()
     {
-        return $this->belongsTo(User::class, 'winner_id');
+        return $this->belongsTo(Player::class, 'winner_id');
     }
 
     public function nextMatch()

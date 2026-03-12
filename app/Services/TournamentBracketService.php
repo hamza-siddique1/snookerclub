@@ -22,7 +22,8 @@ class TournamentBracketService
                 'title' => $data['title'],
                 'total_players' => $data['number_of_players'],
                 'type' => $data['type'],
-                'status' => 'pending'
+                'status' => 'pending',
+                'year' => now()->year
             ]);
 
             $playersCount = $data['number_of_players'];
@@ -54,7 +55,8 @@ class TournamentBracketService
                         'tournament_id' => $tournament->id,
                         'round' => $round,
                         'match_number' => $matchNumber,
-                        'status' => 'pending'
+                        'status' => 'pending',
+                        'table_no' => $matchNumber,
                     ]);
 
                     $roundMatches[$round][] = $match;

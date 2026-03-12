@@ -19,6 +19,7 @@ class CreateTournamentsTable extends Migration
             $table->integer('total_players');
             $table->string('status')->default('pending'); // pending, running, finished
             $table->string('type');
+            $table->string('year')->nullable();
             $table->string('start_time')->nullable();
             $table->string('total_time')->nullable();
 
