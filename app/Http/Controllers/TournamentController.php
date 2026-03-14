@@ -390,15 +390,14 @@ class TournamentController extends Controller
 
     function getPlayerMatches($type, $player)
     {
-
-        return Tournament::where('type', $type)
-            ->whereNotNull('winner')
-            ->where(function ($q) use ($player) {
-                $q->where('player_1', $player->id)
-                    ->orWhere('player_2', $player->id);
-            })->get();
-
-
+        return TournamentMatch::whereHas('tournament', function ($query) use ($type) {
+            $query->where('type', $type);
+        })
+        ->where(function ($query) use ($player) {
+            $query->where('player1_id', $player->id)
+                ->orWhere('player2_id', $player->id);
+        })
+        ->get();
     }
 
     public function get_players()
