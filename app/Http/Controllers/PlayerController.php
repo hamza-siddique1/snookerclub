@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
+use App\Models\TournamentMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -24,7 +25,28 @@ class PlayerController extends Controller
 
     public function show(Player $player)
     {
-        return view('pages.players.front.index', compact('player'));
+        // Get player's match statistics
+        $allMatches = TournamentMatch::where(function ($query) use ($player) {
+            $query->where('player1_id', $player->id)
+                ->orWhere('player2_id', $player->id);
+        })
+        ->with(['tournament', 'player1', 'player2', 'winner'])
+        ->get();
+
+        // Calculate stats
+        $totalMatches = $allMatches->count();
+        $wins = $allMatches->where('winner_id', $player->id)->count();
+        $losses = $totalMatches - $wins;
+        $winPercentage = $totalMatches > 0 ? ($wins / $totalMatches) * 100 : 0;
+
+        // Get highest break
+        $highestBreak = $allMatches->map(function ($match) use ($player) {
+            return $match->player1_id == $player->id ? $match->break_run_player_1 : $match->break_run_player_2;
+        })->max();
+
+        // Get recent matches
+        $recentMatches = $allMatches->sortByDesc('created_at')->take(5);
+        return view('pages.players.front.index', get_defined_vars());
     }
 
 
