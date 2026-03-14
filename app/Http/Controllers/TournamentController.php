@@ -109,51 +109,62 @@ class TournamentController extends Controller
     }
 
     public function results_api()
-    {
-        $data = request()->all();
+{
+    $data = request()->all();
 
-        if (!isset($data['type'])) {
-            $data['type'] = '8-pool';
-        }
-
-        $matches = Tournament::oldest('year')->where('type', $data['type'])->where('player_2', '!=', 0);
-        if (isset($data['date'])) {
-            $matches = $matches->whereMonth('year', $data['month'])->whereDay('year', $data['date']);
-        } else {
-            $matches = $matches->whereDate('year', Carbon::today());
-        }
-
-        $matches = $matches->get();
-
-        $matches = $matches->groupBy('tournament')->all();
-
-        foreach ($matches as $key => $match) {
-            $matchNumber = 1;
-            $match = $match->map(function ($item, $key) use (&$matchNumber) {
-                return [
-                    'id' => $item->id,
-                    'match_number' => $matchNumber++,
-                    'table_number' => $item->table,
-                    'player_1' => get_player_name($item->player_1),
-                    'player_1_slug' => get_player_slug($item->player_1),
-                    'player_1_id' => $item->player_1,
-                    'player_2' => get_player_name($item->player_2),
-                    'player_2_slug' => get_player_slug($item->player_2),
-                    'player_2_id' => $item->player_2,
-                    'round' => $item->round,
-                    'year' => $item->year->format('H:i'),
-                    'score_player_1' => $item->status == 0 ? '-' : $item->score_player_1,
-                    'score_player_2' => $item->status == 0 ? '-' : $item->score_player_2,
-                    'winner' => $item->winner,
-                    'draw_url' => $item->draw_url ?? $item->tournament,
-                ];
-            });
-
-            $matches[$key] = $match->groupBy('round')->all();
-        }
-
-        return response()->json($matches);
+    if (!isset($data['type'])) {
+        $data['type'] = '8-pool';
     }
+
+    $tournaments = Tournament::oldest('year')
+        ->where('type', $data['type'])
+        ->with(['matches' => function ($query) {
+            $query->whereNotNull('player2_id');
+        }])
+        ->get();
+
+    if (isset($data['date']) && isset($data['month'])) {
+        $tournaments = $tournaments->filter(function ($tournament) use ($data) {
+            $tournamentYear = Carbon::parse($tournament->year);
+            return $tournamentYear->month == $data['month'] && $tournamentYear->day == $data['date'];
+        });
+    } else {
+        $tournaments = $tournaments->filter(function ($tournament) {
+            return Carbon::parse($tournament->year)->isToday();
+        });
+    }
+
+    $matches = [];
+
+    foreach ($tournaments as $tournament) {
+        $matchNumber = 1;
+
+        $tournamentMatches = $tournament->matches->map(function ($item) use (&$matchNumber, $tournament) {
+            return [
+                'id' => $item->id,
+                'match_number' => $matchNumber++,
+                'table_number' => $item->table,
+                'player_1' => $item->player1->name ?? 'Unknown',
+                'player_1_slug' => $item->player1->slug ?? '',
+                'player_1_id' => $item->player1_id,
+                'player_2' => $item->player2->name ?? 'Unknown',
+                'player_2_slug' => $item->player2->slug ?? '',
+                'player_2_id' => $item->player2_id,
+                'round' => $item->round,
+                'year' => Carbon::parse($tournament->year)->format('H:i'),
+                'score_player_1' => $item->status == 'pending' ? '-' : $item->score_player_1,
+                'score_player_2' => $item->status == 'pending' ? '-' : $item->score_player_2,
+                'winner' => $item->winner_id,
+                'winner_name' => $item->winner->name ?? null,
+                'draw_url' => $tournament->draw_url ?? $tournament->title,
+            ];
+        });
+
+        $matches[$tournament->title] = $tournamentMatches->groupBy('round')->all();
+    }
+
+    return response()->json($matches);
+}
 
     public function results_details(Tournament $match)
     {
