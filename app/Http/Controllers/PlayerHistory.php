@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tournament;
 use App\Models\Player;
+use App\Models\Tournament;
+use App\Models\TournamentMatch;
 
 class PlayerHistory extends Controller
 {
@@ -89,26 +90,37 @@ class PlayerHistory extends Controller
         $player2_wins = 0;
         $graph_data['labels'] = [sprintf("%s (%d wins)", $player2->name, $player2_wins), sprintf("%s (%d wins)", $player1->name, $player1_wins)];
 
-        $matches = Tournament::WhereIn('player_1', [$player1->id, $player2->id])
-            ->WhereIn('player_2', [$player1->id, $player2->id])
-            ->Where('type', $data['type'])
-            ->get();
+        $matches = TournamentMatch::whereHas('tournament', function ($query) use ($data) {
+            $query->where('type', $data['type']);
+        })
+        ->where(function ($query) use ($player1, $player2) {
+            $query->where([
+                ['player1_id', $player1->id],
+                ['player2_id', $player2->id]
+            ])->orWhere([
+                ['player1_id', $player2->id],
+                ['player2_id', $player1->id]
+            ]);
+        })
+        ->with(['tournament', 'player1', 'player2', 'winner'])  // Add this line
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         /**
          * Get player's overall wins/lost ratio dynamically
          */
         $player1_all_matches = $this->getPlayerMatches($data['type'], $player1);
-        $player1_all_wins = $player1_all_matches->where('winner', $player1->id)->count();
-        $player1_win_loss_ratio =sprintf('%d / %d', $player1_all_wins , $player1_all_matches->count() - $player1_all_wins);
+        $player1_all_wins = $player1_all_matches->where('winner_id', $player1->id)->count();
+        $player1_win_loss_ratio = sprintf('%d / %d', $player1_all_wins, $player1_all_matches->count() - $player1_all_wins);
         $player1_break_and_run = $player1_all_matches->sum(function ($match) use ($player1) {
-            return $match->player_1 == $player1->id ? $match->break_run_player_1 : $match->break_run_player_2;
+            return $match->player1_id == $player1->id ? $match->break_run_player_1 : $match->break_run_player_2;
         });
 
         $player2_all_matches = $this->getPlayerMatches($data['type'], $player2);
-        $player2_all_wins = $player2_all_matches->where('winner', $player2->id)->count();
-        $player2_win_loss_ratio =sprintf('%d / %d', $player2_all_wins , $player2_all_matches->count() - $player2_all_wins);
+        $player2_all_wins = $player2_all_matches->where('winner_id', $player2->id)->count();
+        $player2_win_loss_ratio = sprintf('%d / %d', $player2_all_wins, $player2_all_matches->count() - $player2_all_wins);
         $player2_break_and_run = $player2_all_matches->sum(function ($match) use ($player2) {
-            return $match->player_1 == $player2->id ? $match->break_run_player_1 : $match->break_run_player_2;
+            return $match->player1_id == $player2->id ? $match->break_run_player_1 : $match->break_run_player_2;
         });
 
         /**
@@ -116,8 +128,8 @@ class PlayerHistory extends Controller
          */
 
         if (count($matches) > 0) {
-            $player1_wins = $matches->where('winner', $player1->id)->count();
-            $player2_wins = $matches->where('winner', $player2->id)->count();
+            $player1_wins = $matches->where('winner_id', $player1->id)->count();
+            $player2_wins = $matches->where('winner_id', $player2->id)->count();
 
             try {
                 $player1_win_percentage = ($player1_wins / ($player1_wins + $player2_wins)) * 100;
@@ -127,7 +139,6 @@ class PlayerHistory extends Controller
                 $player2_win_percentage = 0;
             }
 
-
             $graph_data = [
                 'labels' => [sprintf("%s (%d wins)", $player2->name, $player2_wins), sprintf("%s (%d wins)", $player1->name, $player1_wins)],
                 'data' => [$player2_wins, $player1_wins]
@@ -135,18 +146,19 @@ class PlayerHistory extends Controller
         }
 
         $players = Player::select('name')->get();
-//        dd($graph_data['labels'], $player1_win_percentage, $player2_win_percentage);
 
         return view('pages.playerhistory-front.index', get_defined_vars(), $graph_data);
     }
 
     function getPlayerMatches($type, $player){
-        return Tournament::Where('type', $type)
-            ->whereNotNull('winner')
-            ->where(function ($q) use ($player) {
-                $q->where('player_1', $player->id)
-                    ->orWhere('player_2', $player->id);
-            })->get();
+        return TournamentMatch::whereHas('tournament', function ($query) use ($type) {
+            $query->where('type', $type);
+        })
+        ->where(function ($query) use ($player) {
+            $query->where('player1_id', $player->id)
+                ->orWhere('player2_id', $player->id);
+        })
+        ->get();
     }
 
 }
