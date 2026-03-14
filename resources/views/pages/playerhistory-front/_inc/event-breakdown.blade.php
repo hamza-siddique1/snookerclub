@@ -14,12 +14,12 @@
                 @if(count($matches) > 0)
                     @foreach($matches as $match)
                         <tr class="darkwhite">
-                            <td> {{ $match->year->format('Y') }} </td>
-                            <td> {{ $match->tournament }} </td>
+                            <td>{{ $match->tournament?->year }} </td>
+                            <td>{{ $match->tournament?->title }} </td>
                             <td>{{ $match->rules }}</td>
                             <td>{{ $match->round }}</td>
                             <td>{{ $match->score_player_1 }}-{{ $match->score_player_2 }}</td>
-                            <td> {{ isset($match->winner) && $match->winner != -100 ? ($match->winner == $player2->id ? $player2->name : $player1->name) : '---'}}</td>
+                            <td>{{ isset($match->winner_id) && $match->winner_id != -100 ? ($match->winner_id == $player2->id ? $player2->name : $player1->name) : '---'}}</td>
                         </tr>
                     @endforeach
                 @else

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PlayerRankingController;
 use App\Http\Controllers\SnookerMatchController;
+use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('snooker')->group(function () {
@@ -81,3 +82,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
         });
     });
 });
+
+Route::get('/get-bracket-data', [TournamentController::class, 'get_bracket_data'])->name('get-bracket-data');

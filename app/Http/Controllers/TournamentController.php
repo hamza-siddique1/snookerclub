@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\Tournament;
+use App\Models\TournamentMatch;
+use App\Services\TournamentBracketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -14,8 +16,15 @@ class TournamentController extends Controller
 
     public function index()
     {
-        $matches = Tournament::latest()->where('player_2', '!=', 0)->get();
-        return view('pages.matches.index', compact('matches'));
+        $tournaments = Tournament::with([
+            'matches.player1',
+            'matches.player2',
+            'matches.winner'
+        ])
+        ->latest()
+        ->get();
+
+        return view('pages.matches.index', compact('tournaments'));
     }
 
     public function create()
@@ -47,29 +56,34 @@ class TournamentController extends Controller
         return redirect()->route('matches.create');
     }
 
-    public function edit(Tournament $match)
+    public function edit(TournamentMatch $match)
     {
+        $match->load([
+            'player1',
+            'player2',
+            'winner'
+        ]);
+
         return view('pages.matches.edit', compact('match'));
     }
 
-    public function update(Request $request, Tournament $match)
+    public function update(Request $request, TournamentMatch $match)
     {
-        //update match
+      $service = new TournamentBracketService();
+
+      $service->updateMatch($match, $request->all());
+
+    return redirect()
+        ->back()
+        ->with('success','Match updated successfully');
+
         $match->update([
-            'year' => $request->year,
             'round' => $request->round,
-            'winner' => $request->winner == -100 ? null : $request->winner,
-            'score_player_1' => $request->score_player_1,
-            'score_player_2' => $request->score_player_2,
-            'break_run_player_1' => $request->break_and_run_player_1,
-            'break_run_player_2' => $request->break_and_run_player_2,
-            'status' => $request->status,
-            'table' => $request->table
+
         ]);
 
         Session::flash('success', 'Successfully updated.');
         return back();
-
     }
 
     public function destroy(Tournament $match)
@@ -376,15 +390,14 @@ class TournamentController extends Controller
 
     function getPlayerMatches($type, $player)
     {
-
-        return Tournament::where('type', $type)
-            ->whereNotNull('winner')
-            ->where(function ($q) use ($player) {
-                $q->where('player_1', $player->id)
-                    ->orWhere('player_2', $player->id);
-            })->get();
-
-
+        return TournamentMatch::whereHas('tournament', function ($query) use ($type) {
+            $query->where('type', $type);
+        })
+        ->where(function ($query) use ($player) {
+            $query->where('player1_id', $player->id)
+                ->orWhere('player2_id', $player->id);
+        })
+        ->get();
     }
 
     public function get_players()
@@ -401,12 +414,18 @@ class TournamentController extends Controller
 
     public function store_tournament()
     {
+        $service = new TournamentBracketService();
+        $service->create_brackets($data = request()->all());
+        return;
+
         $player1 = request('player1');
         $player2 = request('player2');
         $no_of_players = request('number_of_players');
         $type = request('type');
 
         $round = $this->get_round($no_of_players);
+
+
 
         for ($i = 0; $i < request('total_matches'); $i++) {
 
@@ -435,107 +454,41 @@ class TournamentController extends Controller
 
     public function tournament_draw($tournament_title)
     {
-        //First
-        $tournaments = Tournament::where('tournament', $tournament_title)->where('level', 1)->get();
-
-        $first_tournament = $tournaments->first();
-
-        $output = $this->get_mapped_tournaments($tournaments, [] ); //[mapped, winners]
-//        dd($tournaments, $output[0]);
-        $tournaments = $output[0];
-        $tournaments_second_round_winners = $output[1];
-
-        if($tournaments_second_round_winners){
-            //Second
-            $second_round = $this->pre_processing_array_for_further_tournaments($tournaments_second_round_winners);
-            $second_round[0]['round'] = $this->get_round(count($second_round) * 2);;
-
-            $pending_tournaments = $tournaments->where('player_2', '!=', '0')->where('winner', null)->count();
-            // if($pending_tournaments == 0){ //winner is selected for all the tournaments
-                $this->create_further_tournaments_based_on_previous_winners($second_round, $first_tournament, 2);
-            // }
-
-            $second_round_tournaments = Tournament::where('tournament', $tournament_title)->where('level', 2)->get();
-            if(count($second_round_tournaments) > 0){
-                $output = $this->get_mapped_tournaments($second_round_tournaments, [] );
-                $second_round = $output[0];
-
-                $tournaments_third_round_winners = $output[1];
-            }
-        }
-        else{
-            $second_round = [];
-        }
-
-
-
-        if(isset($tournaments_third_round_winners)){
-            //Third
-            $third_round = $this->pre_processing_array_for_further_tournaments($tournaments_third_round_winners);
-
-            $pending_tournaments = $second_round_tournaments->where('winner', null)->count();
-            // if($pending_tournaments == 0){
-                $output = $this->create_further_tournaments_based_on_previous_winners($third_round, $first_tournament, 3);
-            // }
-
-            $third_round_tournaments = Tournament::where('tournament', $tournament_title)->where('level', 3)->get();
-            if($third_round_tournaments){
-                $output = $this->get_mapped_tournaments($third_round_tournaments, [] );
-                $third_round = $output[0];
-                $tournaments_fourth_round_winners = $output[1];
-            }
-        }
-        else{
-            $third_round = [];
-        }
-
-
-
-
-        if(isset($tournaments_fourth_round_winners)){
-            //Fourth
-            $fourth_round = $this->pre_processing_array_for_further_tournaments($tournaments_fourth_round_winners);
-
-            $pending_tournaments = $third_round_tournaments->where('winner', null)->count();
-            // if($pending_tournaments == 0){
-                $output = $this->create_further_tournaments_based_on_previous_winners($fourth_round, $first_tournament, 4);
-            // }
-
-            $fourth_round_tournaments = Tournament::where('tournament', $tournament_title)->where('level', 4)->get();
-            if($fourth_round_tournaments){
-                $output = $this->get_mapped_tournaments($fourth_round_tournaments, [] );
-                $fourth_round = $output[0];
-                $tournaments_fifth_round_winners = $output[1];
-            }
-        }
-        else{
-            $fourth_round = [];
-        }
-
-
-
-        if(isset($tournaments_fifth_round_winners)){
-            //Fifth
-            $fifth_round = $this->pre_processing_array_for_further_tournaments($tournaments_fifth_round_winners);
-
-            $pending_tournaments = $fourth_round_tournaments->where('winner', null)->count();
-            // if($pending_tournaments == 0){
-                $output = $this->create_further_tournaments_based_on_previous_winners($fifth_round, $first_tournament, 5);
-            // }
-
-            $fifth_round_tournaments = Tournament::where('tournament', $tournament_title)->where('level', 5)->get();
-            if($fifth_round_tournaments){
-                $output = $this->get_mapped_tournaments($fifth_round_tournaments, [] );
-                $fifth_round = $output[0];
-                $tournaments_fifth_round_winners = $output[1];
-            }
-        }
-        else{
-            $fifth_round = [];
-        }
+        $tournament = Tournament::where('title', $tournament_title)->first();
 
         return view('pages.matches.tournament.tournament-draw', get_defined_vars());
     }
+
+    public function get_bracket_data(Request $request)
+    {
+        $tournament_title = $request->tournament_title;
+        $round = $request->round;
+
+        // Load tournament with matches
+    $tournament = Tournament::with(['matches.player1', 'matches.player2', 'matches.winner'])
+        ->where('title', $tournament_title)
+        ->firstOrFail();
+
+    // Filter only matches for the requested round
+    $matches = $tournament->matches->where('round', $round); // This uses Collection filter
+
+    // Optional: convert to array or JSON
+    $matchesArray = $matches->values()->map(function($match){
+        return [
+            'id' => $match->id,
+            'player1' => $match->player1->name ?? '',
+            'player2' => $match->player2->name ?? '',
+            'player1_score' => $match->score_player_1,
+            'player2_score' => $match->score_player_2,
+            'winner' => $match->winner->name ?? null,
+            'round' => $match->round,
+            'status' => $match->status,
+        ];
+    });
+
+    return response()->json($matchesArray);
+    }
+
 
     function get_mapped_tournaments($tournaments, $second_array)
     {

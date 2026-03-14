@@ -10,43 +10,13 @@ class Tournament extends Model
     use HasFactory;
 
     protected $fillable = [
-        'player_1',
-        'player_2',
-        'year',
-        'tournament',
-        'rules',
-        'round',
-        'winner',
-        'result',
-        'type',
+        'title',
+        'total_players',
         'status',
-        'draw_url',
-        'score_player_1',
-        'score_player_2',
-        'break_run_player_1',
-        'break_run_player_2',
-        'level',
-        'table'
+        'type',
+        'year'
     ];
 
-    protected $casts = [
-        'year' => 'datetime',
-    ];
-
-    public function frames()
-    {
-        return $this->hasMany(TournamentFrames::class);
-    }
-
-    public function player1()
-    {
-        return $this->hasOne(Player::class, 'id', 'player_1');
-    }
-
-    public function player2()
-    {
-        return $this->hasOne(Player::class, 'id', 'player_2');
-    }
 
     public const KEY_ACTION_CREATED = 0;
     public const KEY_ACTION_STARTED = 1;
@@ -71,7 +41,62 @@ class Tournament extends Model
         self::KEY_ACTION_FINISHED => self::ACTION_FINISHED,
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
 
+    public function matches()
+    {
+        return $this->hasMany(TournamentMatch::class);
+    }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Bracket Helpers
+    |--------------------------------------------------------------------------
+    */
 
+    public function matchesByRound()
+    {
+        return $this->matches()
+            ->orderBy('round')
+            ->orderBy('match_number')
+            ->get()
+            ->groupBy('round');
+    }
+
+    public function firstRoundMatches()
+    {
+        return $this->matches()->where('round', 1);
+    }
+
+    public function finalMatch()
+    {
+        return $this->matches()
+            ->orderByDesc('round')
+            ->first();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function isPending()
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isRunning()
+    {
+        return $this->status === 'running';
+    }
+
+    public function isFinished()
+    {
+        return $this->status === 'finished';
+    }
 }

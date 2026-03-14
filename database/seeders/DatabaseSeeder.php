@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
        \App\Models\User::factory(5)->create();
        \App\Models\Player::factory(10)->create();
-       \App\Models\Tournament::factory(50)->create();
+       //\App\Models\Tournament::factory(50)->create();
 
 
         $user1 = Player::find(1);

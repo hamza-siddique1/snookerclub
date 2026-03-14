@@ -39,64 +39,72 @@
                     <table id="matches-table" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
-                            <th>{{ 'ID' }}</th>
-                            <th>{{ 'Tournament' }}</th>
-                            <th>{{ 'Player 1' }}</th>
-                            <th>{{ 'Player 2' }}</th>
-                            <th>{{ 'Year' }}</th>
-                            <th>{{ 'Rules' }}</th>
-                            <th>{{ 'Round' }}</th>
-                            <th>{{ 'Winner' }}</th>
-                            <th>{{ 'Created at' }}</th>
-                            <th>{{ 'Action' }}</th>
+                            <th>ID</th>
+                            <th>Tournament</th>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>Round</th>
+                            <th>Winner</th>
+                            <th>Created at</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @foreach($matches as $match)
-                            <tr>
 
-                                <td>{{ $match->id }}</td>
-                                <td>
-                                    {{ $match->tournament }}
-                                </td>
-                                <td>{{ get_player_name($match->player_1) }} </td>
+                            <tbody>
 
-                                <td>{{ get_player_name($match->player_2) }}</td>
+                            @foreach($tournaments as $tournament)
 
-                                <td>{{ isset($match->year) ? $match->year->format('Y') : '-' }}</td>
+                                @foreach($tournament->matches as $match)
 
-                                <td>{{ $match->rules }}</td>
+                                    <tr>
 
-                                <td>{{ $match->round }}</td>
+                                        <td>{{ $match->id }}</td>
 
-                                <td>{{ get_player_name($match->winner) }}</td>
+                                        <td>{{ $tournament->title }}</td>
 
-                                <td data-sort="{{ strtotime($match->created_at) }}"
-                                    title="{{ $match->created_at }}">{{ $match->created_at->diffForHumans() }}</td>
-                                <td class="table-action">
+                                        <td>{{ $match->player1->name ?? '-' }}</td>
 
-                                    <a href="{{ route('matches.edit', $match->id) }}" class="btn"
-                                       style="display: inline">
-                                        <i class="fa fa-edit text-info"></i>
-                                    </a>
+                                        <td>{{ $match->player2->name ?? '-' }}</td>
 
-                                    <form method="post" action="{{ route('matches.destroy', $match->id) }}"
-                                          onsubmit="return confirmSubmission(this, 'Are you sure?' + '{{ "$match->name"  }}')"
-                                          style="display: inline">
-                                        @csrf
-                                        @method('DELETE')
+                                        <td>Round {{ $match->round }}</td>
 
-                                        <button class="btn text-danger"
-                                                href="{{ route('matches.destroy', $match->id) }}">
-                                            <i class="fa fa-trash"></i>
+                                        <td>{{ $match->winner->name ?? '-' }}</td>
 
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                        <td data-sort="{{ strtotime($match->created_at) }}"
+                                            title="{{ $match->created_at }}">
+                                            {{ $match->created_at->diffForHumans() }}
+                                        </td>
+
+                                        <td class="table-action">
+
+                                            <a href="{{ route('matches.edit', $match->id) }}" class="btn">
+                                                <i class="fa fa-edit text-info"></i>
+                                            </a>
+
+                                            <form method="post"
+                                                action="{{ route('matches.destroy', $match->id) }}"
+                                                onsubmit="return confirm('Are you sure?')"
+                                                style="display:inline">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="btn text-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endforeach
+
+                            </tbody>
+                            </table>
                 </div>
             </div>
         </div>
