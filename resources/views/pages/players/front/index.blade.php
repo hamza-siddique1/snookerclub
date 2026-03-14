@@ -32,41 +32,101 @@
                     <img alt="France" class="w-10 h-10 rounded-full object-cover border-2 border-white/20 relative z-10" src="https://cdn.countryflags.com/thumbs/france/flag-round-250.png">
                   </div>
                 </div>
-                <div class="relative z-20  py-6 px-4 sm:px-6 xl:px-8 xl:pl-20 xl:py-10">
-                  <div class="md:hidden w-full max-h-[200px] mb-6 overflow-hidden">
-                    <img alt="Kylian Mbappé" class="w-full max-h-[400px] object-contain" src="https://ichef.bbci.co.uk/ace/standard/961/cpsprodpb/e497/live/141dc490-a613-11f0-bb91-b78957e7a342.jpg">
-                  </div>
-                  <div class="mb-6 sm:mb-8">
-                    <p class="text-[18px] font-bold text-zinc-400 tracking-wide mb-1">Kylian</p>
-                    <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-none">Mbappé</h1>
-                  </div>
-                  <div class="space-y-2 sm:space-y-3 max-w-md mb-6 sm:mb-8">
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">CURRENT CLUB</span>
-                      <span class="text-[16px] text-zinc-200">Paris Saint-Germain</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">POSITION</span>
-                      <span class="text-[16px] text-zinc-200">Forward, right winger</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">BIRTHDATE</span>
-                      <span class="text-[16px] text-zinc-200">Dec 20, 1998, Paris</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">NATIONALITY</span>
-                      <span class="text-[16px] text-zinc-200">French</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">PROFILE</span>
-                      <span class="text-[16px] text-zinc-200">178cm / 73kg</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                      <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">SIGNED AT PSG</span>
-                      <span class="text-[16px] text-zinc-200">Aug 31, 2017</span>
-                    </div>
-                  </div>
-                </div>
+               <div class="relative z-20 py-6 px-4 sm:px-6 xl:px-8 xl:pl-20 xl:py-10">
+    <!-- Player Image (Mobile) -->
+    @if($player->image1)
+        <div class="md:hidden w-full max-h-[200px] mb-6 overflow-hidden rounded-lg">
+            <img alt="{{ $player->name }}" class="w-full max-h-[400px] object-contain" src="{{ asset('storage/' . $player->image1) }}">
+        </div>
+    @endif
+
+    <!-- Player Name -->
+    <div class="mb-6 sm:mb-8">
+        <p class="text-[18px] font-bold text-zinc-400 tracking-wide mb-1">{{ $player->name }}</p>
+        <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-none">{{ $player->name }}</h1>
+    </div>
+
+    <!-- Basic Info -->
+    <div class="space-y-2 sm:space-y-3 max-w-md mb-6 sm:mb-8">
+
+        <!-- Birth Place -->
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">BIRTH PLACE</span>
+            <span class="text-[16px] text-zinc-200">{{ $player->birth_place ?? 'N/A' }}</span>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">BIRTHDATE</span>
+            <span class="text-[16px] text-zinc-200">{{ $player->dob->format('M d, Y') }}</span>
+        </div>
+
+        <!-- Residence -->
+        @if($player->residence)
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">RESIDENCE</span>
+                <span class="text-[16px] text-zinc-200">{{ $player->residence }}</span>
+            </div>
+        @endif
+
+        <!-- Plays With -->
+        @if($player->plays_with)
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">PLAYS WITH</span>
+                <span class="text-[16px] text-zinc-200">{{ $player->plays_with }}</span>
+            </div>
+        @endif
+
+        <!-- Professional Since -->
+        @if($player->professional_since)
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">PROFESSIONAL SINCE</span>
+                <span class="text-[16px] text-zinc-200">{{ $player->professional_since }}</span>
+            </div>
+        @endif
+
+        <!-- Highest Break -->
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">HIGHEST BREAK</span>
+            <span class="text-[16px] text-zinc-200">{{ $highestBreak ?? $player->highest_break ?? 'N/A' }}</span>
+        </div>
+
+        <!-- Win/Loss Record -->
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">RECORD</span>
+            <span class="text-[16px] text-zinc-200">{{ $wins }} Wins / {{ $losses }} Losses</span>
+        </div>
+
+        <!-- Win Percentage -->
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">WIN %</span>
+            <span class="text-[16px] text-zinc-200">{{ number_format($winPercentage, 2) }}%</span>
+        </div>
+
+        <!-- Titles -->
+        @if($player->titles)
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">TITLES</span>
+                <span class="text-[16px] text-zinc-200">{{ $player->titles }}</span>
+            </div>
+        @endif
+
+        <!-- Cue -->
+        @if($player->cue)
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
+                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">CUE</span>
+                <span class="text-[16px] text-zinc-200">
+                    @if($player->cue_link)
+                        <a href="{{ $player->cue_link }}" target="_blank" class="text-blue-400 hover:underline">{{ $player->cue }}</a>
+                    @else
+                        {{ $player->cue }}
+                    @endif
+                </span>
+            </div>
+        @endif
+
+    </div>
+</div>
               </section>
               <div class="flex flex-col xl:flex-row gap-6 px-4 sm:px-6 xl:px-8 pb-10">
                 <div class="flex-1 min-w-0 bg-black rounded-t overflow-hidden">
