@@ -438,8 +438,6 @@
       </div>
     </div>
   </div>
-  <!-- <script src="{{ asset('assets/front/js/player/script.js') }}"> -->
-
   </script>
 </body>
 </html>

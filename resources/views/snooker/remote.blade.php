@@ -9,7 +9,7 @@
     -->
     <title>Player Website</title>
     <!-- <script src="/assets/front/js/remote-lcd/remote.js"></script> -->
-    <link rel="stylesheet" href="/assets/front/css/remote-lcd/remote.css">
+    <link rel="stylesheet" href="/assets/front/css/remote-lcd/remote.css?time={{time()}}">
   </head>
   <body cz-shortcut-listen="true">
     <div id="app">
@@ -35,6 +35,6 @@
         </main>
       </div>
     </div>
-    <script src="{{ mix('js/app.js') }}?time={{time()}}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
   </body>
 </html>
