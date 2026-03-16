@@ -15,7 +15,7 @@
 <body cz-shortcut-listen="true">
   <div id="root">
     <div class="PlayerLayout bg-black/80 text-white font-sans min-h-screen flex flex-col relative">
-      <div class="hidden md:block absolute inset-0 z-0 bg-no-repeat pointer-events-none" aria-hidden="true" style="background-image: url(&quot;https://sportrenders.com/wp-content/uploads/2024/06/Mbappe-PNG-France-Football-Render.png&quot;); background-size: contain; background-position: right top;"></div>
+      <div class="hidden md:block absolute inset-0 z-0 bg-no-repeat pointer-events-none" aria-hidden="true" style="background-image: url('{{ asset('players/' . $player->image1) }}'); background-size: contain; background-position: right top;"></div>
       <div class="relative z-10 flex flex-col flex-1">
         <div class="px-4 sm:px-6 xl:px-8 py-2">
           <a class="text-xl font-semibold text-white hover:text-gray-300" href="/" data-discover="true">
@@ -33,100 +33,21 @@
                   </div>
                 </div>
                <div class="relative z-20 py-6 px-4 sm:px-6 xl:px-8 xl:pl-20 xl:py-10">
-    <!-- Player Image (Mobile) -->
-    @if($player->image1)
-        <div class="md:hidden w-full max-h-[200px] mb-6 overflow-hidden rounded-lg">
-            <img alt="{{ $player->name }}" class="w-full max-h-[400px] object-contain" src="{{ asset('storage/' . $player->image1) }}">
-        </div>
-    @endif
+                  <!-- Player Image (Mobile) -->
+                  @if($player->image1)
+                      <div class="md:hidden w-full max-h-[200px] mb-6 overflow-hidden rounded-lg">
+                          <img alt="{{ $player->name }}" class="w-full max-h-[400px] object-contain" src="{{ asset('players/' . $player->image1) }}">
+                      </div>
+                  @endif
 
-    <!-- Player Name -->
-    <div class="mb-6 sm:mb-8">
-        <p class="text-[18px] font-bold text-zinc-400 tracking-wide mb-1">{{ $player->name }}</p>
-        <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-none">{{ $player->name }}</h1>
-    </div>
+                  <!-- Player Name -->
+                  <div class="mb-6 sm:mb-8">
+                      <p class="text-[18px] font-bold text-zinc-400 tracking-wide mb-1">{{ $player->name }}</p>
+                      <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-none">{{ $player->name }}</h1>
+                  </div>
 
-    <!-- Basic Info -->
-    <div class="space-y-2 sm:space-y-3 max-w-md mb-6 sm:mb-8">
-
-        <!-- Birth Place -->
-        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">BIRTH PLACE</span>
-            <span class="text-[16px] text-zinc-200">{{ $player->birth_place ?? 'N/A' }}</span>
-        </div>
-
-        <!-- Date of Birth -->
-        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">BIRTHDATE</span>
-            <span class="text-[16px] text-zinc-200">{{ $player->dob->format('M d, Y') }}</span>
-        </div>
-
-        <!-- Residence -->
-        @if($player->residence)
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">RESIDENCE</span>
-                <span class="text-[16px] text-zinc-200">{{ $player->residence }}</span>
-            </div>
-        @endif
-
-        <!-- Plays With -->
-        @if($player->plays_with)
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">PLAYS WITH</span>
-                <span class="text-[16px] text-zinc-200">{{ $player->plays_with }}</span>
-            </div>
-        @endif
-
-        <!-- Professional Since -->
-        @if($player->professional_since)
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">PROFESSIONAL SINCE</span>
-                <span class="text-[16px] text-zinc-200">{{ $player->professional_since }}</span>
-            </div>
-        @endif
-
-        <!-- Highest Break -->
-        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">HIGHEST BREAK</span>
-            <span class="text-[16px] text-zinc-200">{{ $highestBreak ?? $player->highest_break ?? 'N/A' }}</span>
-        </div>
-
-        <!-- Win/Loss Record -->
-        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">RECORD</span>
-            <span class="text-[16px] text-zinc-200">{{ $wins }} Wins / {{ $losses }} Losses</span>
-        </div>
-
-        <!-- Win Percentage -->
-        <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-            <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">WIN %</span>
-            <span class="text-[16px] text-zinc-200">{{ number_format($winPercentage, 2) }}%</span>
-        </div>
-
-        <!-- Titles -->
-        @if($player->titles)
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">TITLES</span>
-                <span class="text-[16px] text-zinc-200">{{ $player->titles }}</span>
-            </div>
-        @endif
-
-        <!-- Cue -->
-        @if($player->cue)
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4">
-                <span class="text-[14px] tracking-widest text-zinc-500 uppercase sm:w-36 shrink-0">CUE</span>
-                <span class="text-[16px] text-zinc-200">
-                    @if($player->cue_link)
-                        <a href="{{ $player->cue_link }}" target="_blank" class="text-blue-400 hover:underline">{{ $player->cue }}</a>
-                    @else
-                        {{ $player->cue }}
-                    @endif
-                </span>
-            </div>
-        @endif
-
-    </div>
-</div>
+                  @include('pages.players.front._inc.basic_info')
+                </div>
               </section>
               <div class="flex flex-col xl:flex-row gap-6 px-4 sm:px-6 xl:px-8 pb-10">
                 <div class="flex-1 min-w-0 bg-black rounded-t overflow-hidden">
@@ -144,207 +65,9 @@
                       </button>
                     </div>
                   </div>
-                  <div class="overflow-x-auto px-4">
-                    <table class="w-full text-[16px] border-separate border-spacing-y-1">
-                      <thead class="">
-                        <tr class="text-[12px] uppercase tracking-wider text-zinc-500  ">
-                          <th class="py-3 pr-2 text-center font-medium whitespace-nowrap">H. DATE</th>
-                          <th class="py-3 px-2 text-left font-medium whitespace-nowrap">Day</th>
-                          <th class="py-3 px-2 text-center font-medium whitespace-nowrap">Venue</th>
-                          <th class="py-3 px-2 text-left font-medium text-right whitespace-nowrap">For</th>
-                          <th class="py-3 px-2 text-center font-medium whitespace-nowrap">Result</th>
-                          <th class="py-3 px-2 text-left font-medium whitespace-nowrap">Against</th>
-                          <th class="py-3 px-2 text-center font-medium whitespace-nowrap">Break and Run</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">1</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Aug 12, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 0</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="SM Caen" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">SM Caen</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">2</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">2</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Aug 18, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 1</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="SCO Angers" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">SCO Angers</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">1</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">3</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Aug 25, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 1</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="Nîmes Olympique" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">Nîmes Olympique</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">1</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">4</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Sep 1, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">4 : 2</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="Saint-Étienne" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">Saint-Étienne</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">-</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">5</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Sep 14, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 1</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="Stade Rennais" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">Stade Rennais</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">2</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">6</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Sep 23, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 1</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="Reims" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">Reims</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">1</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">7</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Sep 26, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">H</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">3 : 0</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="OGC Nice" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">OGC Nice</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">2</td>
-                        </tr>
-                        <tr class="border-b border-zinc-800/30 transition-colors rounded-lg mb-2 bg-white/10">
-                          <td class="py-3 pr-2 text-amber-400 font-bold text-center border-l-2 border-emerald-500 whitespace-nowrap">8</td>
-                          <td class="py-3 px-2 text-zinc-400 whitespace-nowrap text-[14px]">Sep 29, 2018</td>
-                          <td class="py-3 px-2 text-center text-zinc-400 text-[14px] whitespace-nowrap">A</td>
-                          <td class="py-3 px-2 pr-0 text-right whitespace-nowrap">
-                            <div class="flex items-center gap-2 justify-end">
-                              <span class="text-zinc-200 font-medium text-[14px]">PSG</span>
-                              <img alt="PSG" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center whitespace-nowrap">
-                            <div class="inline-flex items-center gap-1.5">
-                              <span class="text-zinc-100 font-semibold text-[14px]">5 : 0</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 whitespace-nowrap">
-                            <div class="flex items-center gap-2">
-                              <img alt="Olympique Lyon" class="w-5 h-5 shrink-0 object-contain" src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/86/Paris_Saint-Germain_Logo.svg/960px-Paris_Saint-Germain_Logo.svg.png">
-                              <span class="text-zinc-300 text-[14px]">Olympique Lyon</span>
-                            </div>
-                          </td>
-                          <td class="py-3 px-2 text-center text-zinc-200 text-[14px] whitespace-nowrap">1</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+
+                    @include('pages.players.front._inc.recent_matches')
+
                 </div>
                 <div class="w-full xl:w-72 xl:shrink-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6 ">
                   <div class="bg-black rounded-md border border-zinc-800/60 overflow-hidden">
@@ -421,7 +144,7 @@
                         </div>
                       </div>
                       <div class="flex items-end gap-4 justify-between">
-                        <span class="text-6xl font-black text-amber-400 leading-none">38</span>
+                        <span class="text-6xl font-black text-amber-400 ">38 41</span>
                         <div class="pb-1 font-bold">
                           <p class="text-[10px] tracking-[0.15em] text-zinc-500 uppercase leading-relaxed">Total</p>
                           <p class="text-[10px] tracking-[0.15em] text-zinc-500 uppercase leading-relaxed">Games</p>
@@ -438,8 +161,6 @@
       </div>
     </div>
   </div>
-  <!-- <script src="{{ asset('assets/front/js/player/script.js') }}"> -->
-
   </script>
 </body>
 </html>
