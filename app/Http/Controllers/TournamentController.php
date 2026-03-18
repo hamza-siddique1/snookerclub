@@ -36,20 +36,23 @@ class TournamentController extends Controller
 
     public function store(Request $request)
     {
-        // create match
-        Tournament::create([
-            'player_1' => $request->player_1,
-            'player_2' => $request->player_2,
+        $tournament_created = Tournament::create([
+            'title' => $request->tournament,
             'year' => $request->year,
-            'tournament' => $request->tournament,
+            'type' => $request->type,
+            'draw_url' => $request->draw_url,
+        ]);
+
+        TournamentMatch::create([
+            'tournament_id' => $tournament_created->id,
+            'player1_id' => $request->player_1,
+            'player2_id' => $request->player_2,
             'rules' => $request->rules,
             'round' => $request->round,
-            'type' => $request->type,
-            'status' => Tournament::KEY_ACTION_CREATED,
-            'draw_url' => $request->draw_url,
+            'status' => 'pending',
             'score_player_1' => 0,
             'score_player_2' => 0,
-            'table' => $request->table,
+            'table' => $request->table ?? '1',
         ]);
 
         Session::flash('success', 'Tournament successfully added.');

@@ -12,10 +12,10 @@ return new class extends Migration
 
             $table->id();
 
-            $table->foreignId('tournament_id');
+            $table->foreignId('tournament_id')->nullable();
 
-            $table->integer('round');              // 1,2,3
-            $table->integer('match_number');
+            $table->string('round')->nullable();              // 1,2,3
+            $table->integer('match_number')->nullable();
 
 
             $table->foreignId('player1_id')->nullable();
