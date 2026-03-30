@@ -1,90 +1,104 @@
 <template>
-  <table class="w-full border-collapse table-fixed">
+  <table class="score-table">
     <colgroup>
       <col style="width: 40%;">
       <col style="width: 20%;">
       <col style="width: 40%;">
     </colgroup>
-    <thead class="text-center">
-      <tr class="bg-[#111811] border-b border-white/5 [&amp;&gt;th]:text-center">
-        <th class="align-middle text-center p-4 py-3">
-          <div class="flex items-center justify-center">
-            <img alt="Logo" class="h-12 w-auto" src="/assets/front/images/logo.png">
+    <thead class="score-thead">
+      <tr>
+        <th class="score-cell score-cell-py3">
+          <div style="display:flex;align-items:center;justify-content:center">
+            <img alt="Logo" class="score-logo" src="/assets/front/images/logo.png">
           </div>
         </th>
-        <th class="align-middle text-center p-4 py-3">
-          <span class="text-[16px] tracking-[0.2em] text-white/50 uppercase font-semibold block">TABLE</span>
-          <span class="text-2xl font-bold text-white">{{ match.table_number }}</span>
+        <th class="score-cell score-cell-py3">
+          <span class="score-table-label">TABLE</span>
+          <span class="score-table-number">{{ match.table_number }}</span>
         </th>
-        <th class="align-middle text-center p-4 py-3">
-          <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto">
-            <span class="text-lg">🎱</span>
+        <th class="score-cell score-cell-py3">
+          <div class="score-emoji-cell">
+            <span>🎱</span>
           </div>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="border-b border-white/5">
-        <td class="align-middle text-center p-4 py-6" :class="getPlayerClass('player_1')">
-          <div v-if="this.current_player === 'player_1'" class="w-2 h-2 rounded-full mb-2 bg-emerald-400 animate-pulse mx-auto"></div>
-          <span class="font-bold text-white text-lg sm:text-xl tracking-wider leading-tight whitespace-pre-line">{{ match.player_1_name.toUpperCase() }}</span>
-        </td>
-        <td class="align-middle text-center p-4 py-6 bg-black/50">
-          <span class="font-bold tabular-nums text-2xl sm:text-3xl tracking-wider block text-white">{{ currentTime }}</span>
-          <span class="text-[9px] tracking-[0.15em] text-white/40 uppercase mt-0.5 inline-block">HEURES MIN SEC</span>
-        </td>
-        <td class="align-middle text-center p-4 py-6" :class="getPlayerClass('player_2')">
-          <div v-if="this.current_player === 'player_2'" class="w-2 h-2 rounded-full mb-2 bg-emerald-400 animate-pulse mx-auto"></div>
-          <span class="font-bold text-white text-lg sm:text-xl tracking-wider leading-tight whitespace-pre-line">{{ match.player_2_name.toUpperCase() }}</span>
-        </td>
-      </tr>
-      <tr class="border-b border-white/5">
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span class="font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_1_frames }}</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4 bg-black/50">
-          <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">PARTIES</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span class="font-bold text-4xl sm:text-5xl text-amber-400">{{ matchData.player_2_frames }}</span>
-        </td>
-      </tr>
-      <tr class="border-b border-white/5">
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span v-if="this.current_player == 'player_1'" class="font-bold text-3xl sm:text-4xl text-red-500">{{ matchData.player_1_break }}</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4 bg-black/50">
-          <span class="text-sm font-bold tracking-[0.2em] text-red-500 uppercase">BREAK</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span v-if="this.current_player == 'player_2'" class="font-bold text-3xl sm:text-4xl text-red-500">{{ matchData.player_2_break }}</span>
-        </td>
-      </tr>
-      <tr class="border-b border-white/5">
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_1')">
-          <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_1_points }}</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4 bg-black/50">
-          <span class="text-xs font-bold tracking-[0.15em] text-white/50 uppercase block">POINTS</span>
-        </td>
-        <td class="align-middle text-center p-4 py-4" :class="getPlayerClass('player_2')">
-          <span :class="blinkingFields.player_2_points ? 'animate-blink' : ''" class="font-bold text-4xl sm:text-5xl text-white">{{ matchData.player_2_points }}</span>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3" class="py-4 px-4 bg-[#0a0e0a] text-center">
-          <div class="flex items-center justify-center gap-2">
-            <div
-              v-for="(color, index) in pottedBalls"
-              :key="index"
-              class="rounded-full ball-red"
-              :class="color"
-            >
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+  <!-- Player Names and Timer -->
+  <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+    <td class="score-cell score-cell-py6 score-bg-emerald" :class="getPlayerClass('player_1')">
+      <div v-if="current_player === 'player_1'" class="score-active-dot"></div>
+      <span class="score-player-name">{{ match.player_1_name.toUpperCase() }}</span>
+    </td>
+    <td class="score-cell score-cell-py6 score-bg-black">
+      <span class="score-timer">{{ currentTime }}</span>
+      <span class="score-timer-label">HEURES MIN SEC</span>
+      <div style="display:flex;gap:0.5rem;margin-top:0.5rem;justify-content:center">
+        <button class="score-timer-btn">START</button>
+        <button class="score-timer-btn">RESET</button>
+      </div>
+    </td>
+    <td class="score-cell score-cell-py6 score-bg-black-30" :class="getPlayerClass('player_2')">
+      <div v-if="current_player === 'player_2'" class="score-active-dot"></div>
+      <span class="score-player-name">{{ match.player_2_name.toUpperCase() }}</span>
+    </td>
+  </tr>
+
+  <!-- Frames / Parties -->
+  <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+    <td class="score-cell score-cell-py4 score-bg-emerald">
+      <span class="glow-yellow score-big-amber color-amber">{{ matchData.player_1_frames }}</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black">
+      <span class="score-parties-label">PARTIES</span>
+      <span class="score-parties-value">{{ matchData.player_1_frames + matchData.player_2_frames }}</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black-30">
+      <span class="glow-yellow score-big-amber color-amber">{{ matchData.player_2_frames }}</span>
+    </td>
+  </tr>
+
+  <!-- Breaks -->
+  <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+    <td class="score-cell score-cell-py4 score-bg-emerald">
+      <span v-if="current_player === 'player_1'" class="score-big-red color-red glow-red">{{ matchData.player_1_break }}</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black">
+      <span class="score-break-label glow-red">BREAK</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black-30">
+      <span v-if="current_player === 'player_2'" class="score-big-red color-red glow-red">{{ matchData.player_2_break }}</span>
+    </td>
+  </tr>
+
+  <!-- Points -->
+  <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+    <td class="score-cell score-cell-py4 score-bg-emerald">
+      <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="glow-white score-big-white" style="color:white">{{ matchData.player_1_points }}</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black">
+      <span class="score-parties-label">POINTS</span>
+      <span class="score-parties-value">{{ matchData.player_1_points + matchData.player_2_points }}</span>
+    </td>
+    <td class="score-cell score-cell-py4 score-bg-black-30">
+      <span :class="blinkingFields.player_2_points ? 'animate-blink' : ''" class="glow-white score-big-white" style="color:white">{{ matchData.player_2_points }}</span>
+    </td>
+  </tr>
+
+  <!-- Potted Balls -->
+  <tr>
+    <td colspan="3" style="padding:1rem;background-color:#0a0e0a;text-align:center">
+      <div class="score-ball-dots">
+        <div
+          v-for="(color, index) in pottedBalls"
+          :key="index"
+          class="ball-red"
+          :class="color"
+        ></div>
+      </div>
+    </td>
+  </tr>
+</tbody>
   </table>
 </template>
 

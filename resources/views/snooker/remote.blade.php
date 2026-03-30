@@ -9,7 +9,7 @@
     -->
     <title>Player Website</title>
     <!-- <script src="/assets/front/js/remote-lcd/remote.js"></script> -->
-    <link rel="stylesheet" href="/assets/front/css/remote-lcd/remote.css?time={{time()}}">
+    <link rel="stylesheet" href="/assets/front/css/remote/remote.css?time={{time()}}">
   </head>
   <body cz-shortcut-listen="true">
     <div id="app">
