@@ -26,19 +26,15 @@
     <tbody>
   <!-- Player Names and Timer -->
   <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-    <td class="score-cell score-cell-py6 score-bg-emerald" :class="getPlayerClass('player_1')">
+    <td class="score-cell score-cell-py6" :class="getPlayerClass('player_1')">
       <div v-if="current_player === 'player_1'" class="score-active-dot"></div>
       <span class="score-player-name">{{ match.player_1_name.toUpperCase() }}</span>
     </td>
     <td class="score-cell score-cell-py6 score-bg-black">
       <span class="score-timer">{{ currentTime }}</span>
       <span class="score-timer-label">HEURES MIN SEC</span>
-      <div style="display:flex;gap:0.5rem;margin-top:0.5rem;justify-content:center">
-        <button class="score-timer-btn">START</button>
-        <button class="score-timer-btn">RESET</button>
-      </div>
     </td>
-    <td class="score-cell score-cell-py6 score-bg-black-30" :class="getPlayerClass('player_2')">
+    <td class="score-cell score-cell-py6" :class="getPlayerClass('player_2')">
       <div v-if="current_player === 'player_2'" class="score-active-dot"></div>
       <span class="score-player-name">{{ match.player_2_name.toUpperCase() }}</span>
     </td>
@@ -46,41 +42,41 @@
 
   <!-- Frames / Parties -->
   <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-    <td class="score-cell score-cell-py4 score-bg-emerald">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_1')">
       <span class="glow-yellow score-big-amber color-amber">{{ matchData.player_1_frames }}</span>
     </td>
     <td class="score-cell score-cell-py4 score-bg-black">
       <span class="score-parties-label">PARTIES</span>
       <span class="score-parties-value">{{ matchData.player_1_frames + matchData.player_2_frames }}</span>
     </td>
-    <td class="score-cell score-cell-py4 score-bg-black-30">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_2')">
       <span class="glow-yellow score-big-amber color-amber">{{ matchData.player_2_frames }}</span>
     </td>
   </tr>
 
   <!-- Breaks -->
   <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-    <td class="score-cell score-cell-py4 score-bg-emerald">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_1')">
       <span v-if="current_player === 'player_1'" class="score-big-red color-red glow-red">{{ matchData.player_1_break }}</span>
     </td>
     <td class="score-cell score-cell-py4 score-bg-black">
       <span class="score-break-label glow-red">BREAK</span>
     </td>
-    <td class="score-cell score-cell-py4 score-bg-black-30">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_2')">
       <span v-if="current_player === 'player_2'" class="score-big-red color-red glow-red">{{ matchData.player_2_break }}</span>
     </td>
   </tr>
 
   <!-- Points -->
   <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
-    <td class="score-cell score-cell-py4 score-bg-emerald">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_1')">
       <span :class="blinkingFields.player_1_points ? 'animate-blink' : ''" class="glow-white score-big-white" style="color:white">{{ matchData.player_1_points }}</span>
     </td>
     <td class="score-cell score-cell-py4 score-bg-black">
       <span class="score-parties-label">POINTS</span>
       <span class="score-parties-value">{{ matchData.player_1_points + matchData.player_2_points }}</span>
     </td>
-    <td class="score-cell score-cell-py4 score-bg-black-30">
+    <td class="score-cell score-cell-py4" :class="getPlayerClass('player_2')">
       <span :class="blinkingFields.player_2_points ? 'animate-blink' : ''" class="glow-white score-big-white" style="color:white">{{ matchData.player_2_points }}</span>
     </td>
   </tr>
@@ -266,7 +262,7 @@ export default {
     },
 
     getPlayerClass(player) {
-      return this.current_player === player ? 'bg-emerald-500/20' : 'bg-black/30';
+      return this.current_player === player ? 'score-bg-emerald' : 'score-bg-black';
     },
 
     /**
